@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { CategoriesDto, Paging } from 'src/app/model';
+import { CategoriesDto } from 'src/app/model';
 
 import { CategoriesService } from 'src/app/service';
 // import { PrimeIcons, MenuItem } from 'primeng/api';
@@ -20,16 +20,18 @@ export class CategoriesComponent {
   @ViewChild('dt') table!: Table;
   Dscategories: any[] = [];
   loading: boolean = true;
-  paging!: Paging;
-
-  keyword: string = '';
+  page:number=1;
+  pageSize:number=5;
+  keyword!: string;
   Categories!: CategoriesDto[];
   datas: CategoriesDto[] = [];
   dataTotalRecords!: number;
   visible: boolean = false;
   FormCategories!: FormGroup;
   messageService: any;
-rowHover: any;
+  rowHover: any;
+  totalPages!:number;
+  totalPageArray:any[]=[]
   constructor(
     private categoriesService: CategoriesService,
     private fb: FormBuilder) {
@@ -37,10 +39,12 @@ rowHover: any;
 
   ngOnInit() {
     this.LoadCategories();
+    this.loadData();
    
     this.FormCategories = this.fb.group({
       name: new FormControl('', Validators.required),
     });
+    
     
   }
 
@@ -50,23 +54,14 @@ rowHover: any;
     })
   }
 
-  loadListLazy = (event: any) => {
+  loadData() {
     this.loading = true;
-    let pageSize = event.rows;
-    let pageIndex = event.first / pageSize + 1;
-    this.paging = {
-      pageIndex: pageIndex,
-      pageSize: pageSize,
-      keyword: this.keyword,
-      orderBy: event.sortField
-        ? `${event.sortField} ${event.sortOrder === 1 ? 'asc' : 'desc'}`
-        : '',
-    };
-    this.categoriesService.Search(this.paging).subscribe({
+    this.categoriesService.Search(this.keyword, this.page, this.pageSize).subscribe({
       next: (res) => {
-        this.datas = res.data;
-        this.dataTotalRecords = res.totalFilter;
-        console.log(this.datas)
+        this.datas = res.rows;
+        this.dataTotalRecords = res.count;
+        this.totalPages=res.count/this.pageSize
+        this.totalPageArray = Array.from({ length: this.totalPages }, (_, index) => index + 1);
       },
       error: (e) => {
         this.loading = false;
@@ -76,12 +71,27 @@ rowHover: any;
       },
     });
   };
+  Nextdata() {
+    if (this.page < this.totalPages) { 
+      this.page = this.page + 1;
+      this.loadData();
+    }
+  }
+  Previousdata() {
+    if (this.page > 0) {
+      this.page = Math.max(1, this.page - 1);
+    }
+  }
+  Setpage(setpage:number){
+    this.page=setpage
+    this.loadData();
+  }
+  
   onSubmitSearch = () => {
-    this.paging.keyword = this.keyword;
-    this.categoriesService.Search(this.paging).subscribe({
+    this.categoriesService.Search(this.keyword,this.page,this.pageSize).subscribe({
       next: (res) => {
-        this.datas = res.data;
-        this.dataTotalRecords = res.totalFilter;
+        this.datas = res.rows;
+        this.dataTotalRecords = res.count;
       },
       error: (e) => {
         this.loading = false;
@@ -94,8 +104,8 @@ rowHover: any;
 
   SaveAdd() {
     if (this.FormCategories.valid) {
-      const ObjTableSurvey = this.FormCategories.value;
-      this.categoriesService.create(ObjTableSurvey).subscribe({
+      const categiries = this.FormCategories.value;
+      this.categoriesService.create(categiries).subscribe({
         next: (res) => {
           if (res != null) {
             this.messageService.add({
@@ -103,15 +113,14 @@ rowHover: any;
               summary: 'Thành Công',
               detail: 'Thêm thành Công !',
             });
+            this.loadData();
             this.table.reset();
             this.FormCategories.reset();
-            this.visible = false;
           }
         },
 
         error: (e) => {
-          // const errorMessage = e.errorMessage;
-          // Utils.messageError(this.messageService, errorMessage);
+           e.errorMessage;
         },
       });
     }

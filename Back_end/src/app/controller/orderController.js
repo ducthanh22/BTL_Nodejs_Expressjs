@@ -45,10 +45,10 @@ class OrderController {
   }
 
   async update(req, res) {
-    const categoryId = req.body.id;
-    const updatedData = req.body; // Dữ liệu cần cập nhật, gửi qua body của yêu cầu
+    const id = req.body.id;
+    const Data = req.body; // Dữ liệu cần cập nhật, gửi qua body của yêu cầu
     try {
-      const updatedCategory = await OrderRep.update(categoryId, updatedData);
+      const updatedCategory = await OrderRep.update(id, Data);
       res.status(200).json(updatedCategory);
     } catch (error) {
       res.status(500).json({ message: 'Internal Server Error', error: error.message });

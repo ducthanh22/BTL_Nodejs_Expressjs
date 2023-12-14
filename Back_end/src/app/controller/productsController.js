@@ -47,10 +47,10 @@ class productsController {
   }
 
   async update(req, res) {
-    const productsId = req.body.id;
+    const productsid = req.body.id;
     const updatedData = req.body; // Dữ liệu cần cập nhật, gửi qua body của yêu cầu
     try {
-      const updatedproducts = await productsRep.updateproducts(productsId, updatedData);
+      const updatedproducts = await productsRep.updateproducts(productsid, updatedData);
       res.status(200).json(updatedproducts);
     } catch (error) {
       console.error(error);

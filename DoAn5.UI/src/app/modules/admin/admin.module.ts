@@ -30,7 +30,9 @@ import { ProductsComponent } from './products/products.component';
     ButtonModule,
     CalendarModule,
     ChartModule,
-    DialogModule,ReactiveFormsModule
+    DialogModule,
+    ReactiveFormsModule,
+    FormsModule
     
     
 

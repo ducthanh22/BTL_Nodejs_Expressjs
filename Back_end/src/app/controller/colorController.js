@@ -1,11 +1,11 @@
-// controller/categoriesController.js
-const categoriesRep = require('../repository/categoriesRep');
+// controller/ColorController.js
+const ColorRep = require('../repository/colorRep');
 
-class CategoriesController {
+class ColorController {
 
   async getAll(_, res) {
     try {
-      const data = await categoriesRep.getAll();
+      const data = await ColorRep.getAll();
       res.status(200).json(data);
     } catch (error) {
       console.error(error);
@@ -16,9 +16,10 @@ class CategoriesController {
   async getbyid(req, res) {
     try {
       const id = req.body.id;
-      const data = await categoriesRep.getbyid(id);
+      console.log(id)
+      const data = await ColorRep.getbyid(id);
       if (!data) {
-        return res.status(404).json({ message: 'not found' });
+        return res.status(404).json({ message: ' not found' });
       }
       res.status(200).json(data);
     } catch (error) {
@@ -30,26 +31,27 @@ class CategoriesController {
   async create(req, res) {
     try {
       // Lấy dữ liệu từ request body hoặc bất kỳ nguồn dữ liệu nào khác
-      const categoryData = req.body;
-      const newCategory = await categoriesRep.create(categoryData);
+      const ColorData = req.body;
+      const newColor = await ColorRep.create(ColorData);
       res.status(201).json({
-        message: 'Category created successfully',
-        category: newCategory,
+        message: ' created successfully',
+        Color: newColor,
       });
     } catch (error) {
       // Xử lý lỗi và trả về thông báo lỗi
-      console.error('Error creating category:', error);
+      console.error('Error creating :', error);
       res.status(500).json({
         error: error.message,
       });
     }
   }
 
-  async updateCategory(req, res) {
+  async update(req, res) {
     const id = req.body.id;
+    console.log(id)
     const Data = req.body; // Dữ liệu cần cập nhật, gửi qua body của yêu cầu
     try {
-      const updated = await categoriesRep.update(id, Data);
+      const updated = await ColorRep.update(id, Data);
       res.status(200).json(updated);
     } catch (error) {
       res.status(500).json({ message: 'Internal Server Error', error: error.message });
@@ -59,9 +61,9 @@ class CategoriesController {
   async delete(req, res) {
     try {
       const id = req.body.id;
-      const data = await categoriesRep.delete(id);
+      const data = await ColorRep.delete(id);
       if (!data) {
-        return res.status(404).json({ message: 'not found' });
+        return res.status(404).json({ message: ' not found' });
       }
       res.status(200).json(data);
     } catch (error) {
@@ -69,20 +71,17 @@ class CategoriesController {
       res.status(500).json({ message: 'Internal Server Error', error: error.message });
     }
   }
+
   async  searchAndPaginate(req, res) {
     try {
-      console.log("Request Body:", req.body);
-      const keyword = req.query.keyword;
-      const page = req.query.page;
-      const pageSize = req.query.pageSize;
-     
-      const { count, rows } = await categoriesRep.searchAndPaginate(keyword, page, pageSize);
-      res.status(200).json({  count, rows });
+      const { keyword, page, pageSize } = req.body;
+      const { count, rows } = await ColorRep.searchAndPaginate(keyword, page, pageSize);
+      res.status(200).json({ count, rows });
     } catch (error) {
       res.status(500).json({ message: 'Internal Server Error', error: error.message });
     }
   }
+  
 }
 
-
-module.exports = new CategoriesController();
+module.exports = new ColorController();

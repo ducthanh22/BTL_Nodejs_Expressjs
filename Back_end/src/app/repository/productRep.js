@@ -107,8 +107,5 @@ class productsRep {
       throw error;
     }
   }
-
 }
-
-
 module.exports = new productsRep();

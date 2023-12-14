@@ -9,6 +9,6 @@ import { Injectable } from '@angular/core';
 })
 export class CategoriesService extends BaseService<CategoriesDto> {
   constructor(http: HttpClient) {
-    super(http, `${environment.apiUrl}/loaisp`);
+    super(http, `${environment.apiUrl}/categories`);
   }
 }

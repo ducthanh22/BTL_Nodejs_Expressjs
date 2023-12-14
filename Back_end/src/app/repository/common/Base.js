@@ -32,16 +32,16 @@ class BaseRep {
     }
   }
 
-  async update(id, updatedData) {
+  async update(id, Data) {
     try {
       const existingData = await this.model.findByPk(id);
       if (existingData) {
-        const updatedDataInstance = await existingData.update(updatedData, {
+        const updatedDataInstance = await existingData.update(Data, {
           where: { id },
         });
         return updatedDataInstance;
       } else {
-        throw new Error(`ID ${id} not found.`);
+        throw new Error(`id ${id} not found.`);
       }
     } catch (error) {
       throw error;
@@ -54,39 +54,68 @@ class BaseRep {
       if (existingData) {
         const deletedCount = await this.model.destroy({ where: { id } });
         if (deletedCount > 0) {
-          return { message: `Deleted ID ${id}` };
+          return { message: `Deleted id ${id}` };
         } else {
-          throw new Error(`ID ${id} not found.`);
+          throw new Error(`id ${id} not found.`);
         }
       } else {
-        throw new Error(`ID ${id} not found.`);
+        throw new Error(`id ${id} not found.`);
       }
     } catch (error) {
       throw error;
     }
   }
 
-  async searchAndPaginate(query, page = 1, pageSize = 10) {
+  // async searchAndPaginate(keyword, page=1, pageSize=6) {
+  //   try {
+  //     let whereCondition = {};
+  //     // Kiểm tra xem keyword có giá trị không
+  //     if (keyword && keyword.trim() !== "") {
+  //       whereCondition = {
+  //         name: {
+  //           [Op.like]: `%${keyword}%`,
+  //         },
+  //       };
+  //     }
+  //     const { count, rows } = await this.model.findAndCountAll({
+  //       where: whereCondition,
+  //       limit: pageSize,
+  //       offset: (page - 1) * pageSize,
+  //     });
+  //     return { count, rows };
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // }
+  async searchAndPaginate(keyword, page, pageSize) {
     try {
-      if (isNaN(page) || page < 1) {
-        page = 1;
-      }
-
-      const { count, rows } = await this.model.findAndCountAll({
-        where: {
+      let whereCondition = {};
+  
+      // Kiểm tra xem keyword có giá trị không
+      if (keyword && keyword.trim() !== "") {
+        whereCondition = {
           name: {
-            [Op.like]: `%${query}%`,
+            [Op.like]: `%${keyword}%`,
           },
-        },
-        limit: pageSize,
-        offset: (page - 1) * pageSize,
+        };
+      }
+  
+      // Chuyển đổi pageSize thành một giá trị số
+      const numericPageSize = parseInt(pageSize);
+  
+      const { count, rows } = await this.model.findAndCountAll({
+        where: whereCondition,
+        limit: numericPageSize,
+        offset: (page - 1) * numericPageSize,
       });
-
+  
       return { count, rows };
     } catch (error) {
       throw error;
     }
   }
+  
+  
 }
 
 module.exports = BaseRep;

@@ -1,8 +1,8 @@
 export interface BaseQuerieResponse<T> {
-    pageIndex: number;
+    count: number;
+    page: number;
     pageSize: number;
-    keyword: string | null;
-    keynumber: number | null;
-    totalFilter: number;
-    data: T[];
+    // keyword: string | null;
+    // keynumber: number | null;
+    rows: T[];
 }
