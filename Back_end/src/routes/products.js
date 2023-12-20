@@ -6,7 +6,11 @@ const productsController = require('../app/controller/productsController');
 router.get('/getall', productsController.getAll);
 router.post('/create', productsController.create);
 router.put('/update', productsController.update);
-router.get('/getbyid', productsController.getbyid);
+router.get('/getbyid/:id', productsController.getbyid);
+router.get('/getcategories', productsController.getcategories);
+
 router.get('/delete', productsController.delete);
 router.get('/search', productsController.searchAndPaginate);
+router.post('/upload', productsController.Fileupload);
+
 module.exports = router;

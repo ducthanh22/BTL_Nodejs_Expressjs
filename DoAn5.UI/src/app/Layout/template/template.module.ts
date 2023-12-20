@@ -8,6 +8,7 @@ import { ClientRoutingModule } from 'src/app/modules/client/client-routing.modul
 import { LoginComponent } from './login/login.component';
 import { AdminModule } from 'src/app/modules/admin/admin.module';
 import { AdminRoutingModule } from 'src/app/modules/admin/admin-routing.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -26,7 +27,8 @@ import { AdminRoutingModule } from 'src/app/modules/admin/admin-routing.module';
     ClientModule,
     ClientRoutingModule,
     AdminModule,
-    AdminRoutingModule
+    AdminRoutingModule,
+    ReactiveFormsModule 
   ]
 })
 export class TemplateModule { }

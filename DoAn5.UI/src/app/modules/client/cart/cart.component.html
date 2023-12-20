@@ -1,9 +1,10 @@
 <h1 style="margin-left: 2em; font-weight: 50;">Giỏ hàng</h1>
-<div style="width: 90%; margin-left: 5%;">
+<div style="width: 90%; margin-left: 5%;" *ngIf="Carts.length">
     <table class="table">
         <thead>
-            <tr>
-                <th style="padding-left: 2em;">Hình ảnh</th>
+            <tr class="table-primary">
+                <th style="width: 2px;">STT</th>
+                <th style="text-align: center;">Hình ảnh</th>
                 <th>Tên sản phẩm</th>
                 <th>Số lượng</th>
                 <th>Giá tiền</th>
@@ -11,24 +12,23 @@
             </tr>
         </thead>
         <tbody>
-            <tr >
-                <td class="img"><img style="width: 30%;" src="./assets/client/assets/img/portfolio/a4.png" /></td>
-                <td class="name">Combo Bộ Quần Áo Hè Thun Nam Áo Tay Ngắn Cổ Tròn Loang Màu FNGLA Phối Quần Short Đùi Zenkocs3 MEN </td>
-                <td class="quantity">1</td>
-                <td class="price">234,000đđ</td>
-                <td class="xoa"><i class="fa fa-trash"></i></td>
-            </tr>
-            <tr >
-                <td class="img"><img style="width: 30%;" src="./assets/client/assets/img/portfolio/a3.png" /></td>
-                <td class="name">Combo Bộ Quần Áo sơ mi Nam  FNGLA Phối Quần Âu Zenkocs3 MEN </td>
-                <td class="quantity">1</td>
-                <td class="price">234,000đđ</td>
-                <td class="xoa"><i class="fa fa-trash"></i></td>
+            <tr *ngFor="let x of Carts; let i = index" >
+                <td class="stt">{{i+1}}</td>
+                <td class="img"><img style="width: 30%;margin-left: 95px;" src="./assets/admin/img/{{x.res.Image}}" /></td>
+                <td class="name">{{x.res.Name}}</td>
+                <td class="quantity">
+                    <button (click)="Downquantity(i,x.quantity)">-</button>
+                    <input (change)="Updatequantity(i,$event)" type="number" [value]="x.quantity" style="width: 60px;text-align: center;" min="0">
+                    <button (click)="Upquantity(i,x.quantity)">+</button>
+
+                </td>
+                <td class="price">{{x.quantity * x.res.Prices[0].Price_product | currency:'VND' }}</td>
+                <td class="xoa"><i class="bi bi-trash3"(click)="Deletecart(i)"></i></td>
             </tr>
         </tbody>
     </table>
 </div>
 <div style="margin-left: 60%;">
-    <button style="border: none; font-weight: bold; font-size: 1.3em; border-radius: 5px; width: 34%; height: 3em; background-color: #01a14b; color: aliceblue;">Cập nhật</button>
-    <button onclick="navigate('/pay')" style="border: none; margin-left: 2em; font-weight: bold; font-size: 1.3em; border-radius: 5px; width: 34%; height: 3em; background-color: #01a14b; color: aliceblue;">Thanh toán</button>
+    <button style="border: none; font-weight: bold; font-size: 1.3em; border-radius: 5px; width: 34%; height: 3em; background-color: #d1182e; color: aliceblue;" (click)="Deleteall()">Xóa tất cả</button>
+    <button onclick="navigate('/pay')" style="border: none; margin-left: 2em; font-weight: bold; font-size: 1.3em; border-radius: 5px; width: 34%; height: 3em; background-color: #01a14b; color: aliceblue;" (click)="navigatePay()">Thanh toán</button>
 </div>

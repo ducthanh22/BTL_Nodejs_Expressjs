@@ -18,9 +18,6 @@ module.exports = {
       Idproduces: {
         type: Sequelize.INTEGER
       },
-      Idcolor: {
-        type: Sequelize.INTEGER
-      },
       Describe: {
         type: Sequelize.STRING
       },

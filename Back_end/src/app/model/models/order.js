@@ -1,4 +1,4 @@
-'use strict';
+  'use strict';
 const {
   Model
 } = require('sequelize');
@@ -15,7 +15,8 @@ module.exports = (sequelize, DataTypes) => {
   }
   Order.init({
     Id_customer: DataTypes.INTEGER,
-    status: DataTypes.BOOLEAN
+    status: DataTypes.BOOLEAN,
+    address:DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Order',

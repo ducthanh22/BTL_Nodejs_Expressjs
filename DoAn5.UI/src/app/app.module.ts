@@ -5,6 +5,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TemplateModule } from './Layout/template/template.module';
 import { TemplateRoutingModule } from './Layout/template/template-routing.module';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { TokenInterceptor } from './service/core/token.interceptor';
+
 
 
 
@@ -18,9 +21,15 @@ import { TemplateRoutingModule } from './Layout/template/template-routing.module
     AppRoutingModule,
     TemplateModule,
     TemplateRoutingModule,
+    HttpClientModule,
+   
    
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: TokenInterceptor,
+    multi: true,
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

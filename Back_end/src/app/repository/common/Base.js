@@ -66,31 +66,9 @@ class BaseRep {
     }
   }
 
-  // async searchAndPaginate(keyword, page=1, pageSize=6) {
-  //   try {
-  //     let whereCondition = {};
-  //     // Kiểm tra xem keyword có giá trị không
-  //     if (keyword && keyword.trim() !== "") {
-  //       whereCondition = {
-  //         name: {
-  //           [Op.like]: `%${keyword}%`,
-  //         },
-  //       };
-  //     }
-  //     const { count, rows } = await this.model.findAndCountAll({
-  //       where: whereCondition,
-  //       limit: pageSize,
-  //       offset: (page - 1) * pageSize,
-  //     });
-  //     return { count, rows };
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // }
   async searchAndPaginate(keyword, page, pageSize) {
     try {
       let whereCondition = {};
-  
       // Kiểm tra xem keyword có giá trị không
       if (keyword && keyword.trim() !== "") {
         whereCondition = {
@@ -99,10 +77,8 @@ class BaseRep {
           },
         };
       }
-  
       // Chuyển đổi pageSize thành một giá trị số
       const numericPageSize = parseInt(pageSize);
-  
       const { count, rows } = await this.model.findAndCountAll({
         where: whereCondition,
         limit: numericPageSize,

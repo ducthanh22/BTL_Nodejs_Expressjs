@@ -20,47 +20,55 @@ export class CategoriesComponent {
   @ViewChild('dt') table!: Table;
   Dscategories: any[] = [];
   loading: boolean = true;
-  page:number=1;
-  pageSize:number=5;
-  keyword!: string;
+  page: number = 1;
+  pageSize: number = 10;
+  keyword: string = '';
   Categories!: CategoriesDto[];
   datas: CategoriesDto[] = [];
   dataTotalRecords!: number;
-  visible: boolean = false;
+ 
   FormCategories!: FormGroup;
   messageService: any;
-  rowHover: any;
-  totalPages!:number;
-  totalPageArray:any[]=[]
+  name!:string;
+
+  showAlert:boolean=false;
+  categoryData!: CategoriesDto;
+  totalPages!: number;
+  totalPageArray: any[] = [];
+  title:string=''
   constructor(
     private categoriesService: CategoriesService,
     private fb: FormBuilder) {
   }
 
   ngOnInit() {
-    this.LoadCategories();
+    // this.LoadCategories();
     this.loadData();
-   
     this.FormCategories = this.fb.group({
+      id: new FormControl(''),
       name: new FormControl('', Validators.required),
     });
     
-    
   }
 
-  LoadCategories() {
-    this.categoriesService.getAll().subscribe((data) => {
-      this.Dscategories = data
-    })
-  }
 
-  loadData() {
+  // LoadCategories() {
+  //   this.categoriesService.getAll().subscribe((data) => {
+  //     this.Dscategories = data
+  //   })
+  // }
+  //Timf kiếm
+  onSubmitSearch() {
+    this.loadData(this.keyword);
+  };
+  // load dữ liệu table
+  loadData(keyword: string = '') {
     this.loading = true;
-    this.categoriesService.Search(this.keyword, this.page, this.pageSize).subscribe({
+    this.categoriesService.Search(keyword, this.page, this.pageSize).subscribe({
       next: (res) => {
         this.datas = res.rows;
         this.dataTotalRecords = res.count;
-        this.totalPages=res.count/this.pageSize
+        this.totalPages = Math.ceil(res.count / this.pageSize);
         this.totalPageArray = Array.from({ length: this.totalPages }, (_, index) => index + 1);
       },
       error: (e) => {
@@ -70,9 +78,10 @@ export class CategoriesComponent {
         this.loading = false;
       },
     });
-  };
+  }
+  
   Nextdata() {
-    if (this.page < this.totalPages) { 
+    if (this.page < this.totalPages) {
       this.page = this.page + 1;
       this.loadData();
     }
@@ -80,27 +89,19 @@ export class CategoriesComponent {
   Previousdata() {
     if (this.page > 0) {
       this.page = Math.max(1, this.page - 1);
+      this.loadData();
     }
   }
-  Setpage(setpage:number){
-    this.page=setpage
+
+  Setpage(setpage: number) {
+    this.page = setpage
     this.loadData();
   }
-  
-  onSubmitSearch = () => {
-    this.categoriesService.Search(this.keyword,this.page,this.pageSize).subscribe({
-      next: (res) => {
-        this.datas = res.rows;
-        this.dataTotalRecords = res.count;
-      },
-      error: (e) => {
-        this.loading = false;
-      },
-      complete: () => {
-        this.loading = false;
-      },
-    });
-  };
+
+  edit(x:any) {
+    this.FormCategories.controls['id'].setValue(x.id);
+    this.FormCategories.controls['name'].setValue(x.name);
+  }
 
   SaveAdd() {
     if (this.FormCategories.valid) {
@@ -108,21 +109,59 @@ export class CategoriesComponent {
       this.categoriesService.create(categiries).subscribe({
         next: (res) => {
           if (res != null) {
-            this.messageService.add({
-              severity: 'success',
-              summary: 'Thành Công',
-              detail: 'Thêm thành Công !',
-            });
-            this.loadData();
-            this.table.reset();
             this.FormCategories.reset();
+            // this.table.reset();
+            this.loadData()
+            this.title='Thêm thành công';
+            this.addSuccess()
           }
         },
-
         error: (e) => {
-           e.errorMessage;
+          e.errorMessage;
         },
       });
     }
+  }
+  
+  Update() {
+    if (this.FormCategories.valid) {
+      const categiries = this.FormCategories.value;
+      this.categoriesService.update(categiries).subscribe({
+        next: (res) => {
+          if (res != null) {
+            this.FormCategories.reset();
+            this.title='Sửa thành công ';
+            // this.table.reset();
+            this.loadData()
+                  this.addSuccess();
+          }
+        },
+        error: (e) => {
+          e.errorMessage;
+        },
+      });
+    }
+  }
+
+  delete(x:any){
+    if(confirm('Bạn có muốn xóa không?')){
+      this.categoriesService.delete(x.id).subscribe({
+        next:(res)=>{
+          if (res != null) {
+            this.FormCategories.reset();
+            this.loadData();
+            this.title='Xóa thành công';
+            this.addSuccess();
+          }
+        }
+      })
+    }
+  }
+
+  addSuccess() {
+    this.showAlert = true;
+    setTimeout(() => {
+      this.showAlert = false;
+    }, 2000);
   }
 }

@@ -70,8 +70,8 @@ class OrderController {
   }
   async  searchAndPaginate(req, res) {
     try {
-      const { query, page, pageSize } = req.body;
-      const { count, rows } = await OrderRep.searchAndPaginate(query, page, pageSize);
+      const { keyword, page, pageSize}  = req.body;
+      const { count, rows } = await OrderRep.searchAndPaginateOrder(keyword, page, pageSize);
       res.status(200).json({ count, rows });
     } catch (error) {
       res.status(500).json({ message: 'Internal Server Error', error: error.message });

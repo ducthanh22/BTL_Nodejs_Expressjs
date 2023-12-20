@@ -15,7 +15,8 @@ class CategoriesController {
   
   async getbyid(req, res) {
     try {
-      const id = req.body.id;
+      const id = req.params.id;
+   
       const data = await categoriesRep.getbyid(id);
       if (!data) {
         return res.status(404).json({ message: 'not found' });
@@ -58,7 +59,7 @@ class CategoriesController {
 
   async delete(req, res) {
     try {
-      const id = req.body.id;
+      const id = req.params.id;
       const data = await categoriesRep.delete(id);
       if (!data) {
         return res.status(404).json({ message: 'not found' });
@@ -71,10 +72,10 @@ class CategoriesController {
   }
   async  searchAndPaginate(req, res) {
     try {
-      console.log("Request Body:", req.body);
       const keyword = req.query.keyword;
       const page = req.query.page;
       const pageSize = req.query.pageSize;
+      console.log('page',keyword)
      
       const { count, rows } = await categoriesRep.searchAndPaginate(keyword, page, pageSize);
       res.status(200).json({  count, rows });
@@ -83,6 +84,4 @@ class CategoriesController {
     }
   }
 }
-
-
 module.exports = new CategoriesController();

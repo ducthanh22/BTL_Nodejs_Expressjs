@@ -1,13 +1,16 @@
-const { Sequelize, DataTypes } = require('sequelize'); 
+const {DataTypes,Op } = require('sequelize'); 
+
+
 var db = require('../model/models/index');
-
 const sequelize = db.sequelize; 
-
 const order = require('../model/models/order')(db.sequelize, DataTypes);
 const BaseRepository = require('./common/Base');
 const order_detail= require('../model/models/order_detail')(db.sequelize, DataTypes);
+const customer= require('../model/models/users')(db.sequelize, DataTypes);
+
 
 order.hasMany(order_detail, { foreignKey: 'Id_product' });
+customer.hasMany(order, { foreignKey: 'Id_customer' });
 
 class OrderRepository extends BaseRepository {
   constructor() {
@@ -18,7 +21,6 @@ class OrderRepository extends BaseRepository {
     try {
       // Bắt đầu giao dịch
       transaction = await sequelize.transaction();
-      console.log("transaction",transaction)
       const newOrder = await order.create(orderData, { transaction });
       if (orderDetailsData && Array.isArray(orderDetailsData)) {
         const orderDetailsWithOrderId = orderDetailsData.map((detail) => ({
@@ -38,9 +40,6 @@ class OrderRepository extends BaseRepository {
       throw error;
     }
   }
-  
-  
-
 
   async getbyids(id) {
     try {
@@ -57,6 +56,40 @@ class OrderRepository extends BaseRepository {
       throw error;
     }
   }
+
+  async searchAndPaginateOrder(keyword, page, pageSize) {
+    try {
+     
+      let whereCondition = {};
+      // Kiểm tra xem keyword có giá trị không
+      if (keyword && keyword.trim() !== "") {
+        whereCondition = {
+          name: {
+            [Op.like]: `%${keyword}%`,
+          },
+        };
+        console.log(whereCondition)
+      }
+      // Chuyển đổi pageSize thành một giá trị số
+      const numericPageSize = parseInt(pageSize);
+      const { count, rows } = await customer.findAndCountAll({
+        where: whereCondition,
+        limit: numericPageSize,
+        offset: (page - 1) * numericPageSize,
+        include:[
+          {
+            model:order,
+            required:false
+          }
+        ]
+      });
+      return { count, rows };
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  
   
 }
 

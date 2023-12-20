@@ -17,7 +17,6 @@ module.exports = (sequelize, DataTypes) => {
     Name: DataTypes.STRING,
     Idcategories: DataTypes.INTEGER,
     Idproduces: DataTypes.INTEGER,
-    Idcolor: DataTypes.INTEGER,
     Describe: DataTypes.STRING,
     Image: DataTypes.STRING
   }, {
