@@ -14,7 +14,7 @@ class OrderController {
   
   async getbyid(req, res) {
     try {
-      const id = req.body.id;
+      const id = req.params.id;
       const data = await OrderRep.getbyids(id);
       if (!data) {
         return res.status(404).json({ message: 'Order not found' });
@@ -70,7 +70,7 @@ class OrderController {
   }
   async  searchAndPaginate(req, res) {
     try {
-      const { keyword, page, pageSize}  = req.body;
+      const { keyword, page, pageSize}  = req.query;
       const { count, rows } = await OrderRep.searchAndPaginateOrder(keyword, page, pageSize);
       res.status(200).json({ count, rows });
     } catch (error) {

@@ -25,6 +25,8 @@ var detail_importbillRoute= require('./src/routes/detail_importbill')
 var exportbill= require('./src/routes/exportbill')
 var importbill= require('./src/routes/importbill')
 var acount= require('./src/routes/acount')
+var Produces= require('./src/routes/Produces')
+
 
 
 
@@ -48,7 +50,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(cors());
 app.use(fileUpload());
-app.use(authenticateToken);
+// app.use(authenticateToken);  
 // app.use(acl.authorize);
 
 
@@ -66,6 +68,9 @@ app.use('/detail_exportbill',detail_exportbillRoute);
 app.use('/detail_importbill',detail_importbillRoute);
 app.use('/exportbill',exportbill);
 app.use('/importbill',importbill);
+
+app.use('/produces',Produces);
+
 app.use('/account',acount);
 
 

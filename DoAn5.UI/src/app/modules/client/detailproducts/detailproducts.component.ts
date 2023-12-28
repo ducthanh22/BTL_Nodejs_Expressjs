@@ -16,7 +16,7 @@ export class DetailproductsComponent {
   datas!:any;
   loading:boolean=true;
   
-   Carts:any[]=[];
+  Carts:any[]=[];
 
 constructor(private route: ActivatedRoute,private ProductService:ProductService,
   private CategoriesService:CategoriesService){}

@@ -9,7 +9,7 @@ router.put('/update', productsController.update);
 router.get('/getbyid/:id', productsController.getbyid);
 router.get('/getcategories', productsController.getcategories);
 
-router.get('/delete', productsController.delete);
+router.get('/delete/:id', productsController.delete);
 router.get('/search', productsController.searchAndPaginate);
 router.post('/upload', productsController.Fileupload);
 

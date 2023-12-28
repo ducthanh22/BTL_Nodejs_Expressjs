@@ -4,7 +4,8 @@ export interface OrderDto {
     id:number|null,
     Id_customer: number,
     status: boolean,
-    address:string
+    address:string,
+    Price:number,
     Order_details:Order_detailsDto[]
 }
 

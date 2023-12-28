@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Importbill.init({
+    Id_customer: DataTypes.INTEGER,
     Price: DataTypes.INTEGER
   }, {
     sequelize,

@@ -5,7 +5,7 @@
         try{
             const username = req.body.data.username;
             const password = req.body.data.password;
-            console.log(username)
+            console.log(req.body)
             var exist = await Rep.login(username,password)
             if(!exist){
                 return  res.status(400).json({message:'not found'})

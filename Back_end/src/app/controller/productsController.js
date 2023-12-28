@@ -47,8 +47,10 @@ class productsController {
     try {
       // Lấy dữ liệu từ request body hoặc bất kỳ nguồn dữ liệu nào khác
       const productsData = req.body;
+      const file = req.files.Image;
       const newproducts = await productsRep.Create(productsData);
-      req.productId = newproducts.id;
+      const Idnew = newproducts.id;
+      const data = await productsRep.fileUpload(Idnew, file);
       res.status(201).json({
         message: 'products created successfully',
         products: newproducts,
@@ -62,12 +64,29 @@ class productsController {
       });
     }
   }
+  async  Fileupload(req, res) {
+    try {
+      const id = req.productId || parseInt(req.body.id);
+
+      const file = req.files.file;
+      console.log("file",file)
+      const data = await productsRep.fileUpload(id, file);
+      res.status(200).json(data);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal Server Error', error: error.message });
+    }
+  }
 
   async update(req, res) {
-    const productsid = req.body.id;
-    const updatedData = req.body; // Dữ liệu cần cập nhật, gửi qua body của yêu cầu
+    console.log(req.body)
+    console.log(req.files)
+    const productsid = req.body.Id;
+    const updatedData = req.body;
+    const file = req.files?.Image; // Dữ liệu cần cập nhật, gửi qua body của yêu cầu
     try {
-      const updatedproducts = await productsRep.updateproducts(productsid, updatedData);
+      const updatedproducts = await productsRep.update(productsid, updatedData);
+      const data = await productsRep.fileUpload(productsid, file);
       res.status(200).json(updatedproducts);
     } catch (error) {
       console.error(error);
@@ -77,7 +96,7 @@ class productsController {
 
   async delete(req, res) {
     try {
-      const id = req.body.id;
+      const id = req.params.id;
       const data = await productsRep.delete(id);
       if (!data) {
         return res.status(404).json({ message: 'products not found' });
@@ -90,7 +109,7 @@ class productsController {
   }
   async  searchAndPaginate(req, res) {
     try {
-      const { keyword, page, pageSize } = req.body;
+      const { keyword, page, pageSize } = req.query;
       const { count, rows } = await productsRep.searchAndPaginate(keyword, page, pageSize);
       res.status(200).json({ count, rows });
     } catch (error) {
@@ -98,18 +117,7 @@ class productsController {
       res.status(500).json({ message: 'Internal Server Error', error: error.message });
     }
   }
-  async  Fileupload(req, res) {
-    try {
-      const id = req.productId || parseInt(req.body.id);
-
-      const file = req.files.file;
-      const data = await productsRep.fileUpload(id, file);
-      res.status(200).json(data);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Internal Server Error', error: error.message });
-    }
-  }
+ 
 }
 
 

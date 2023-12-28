@@ -22,7 +22,7 @@
                     <button (click)="Upquantity(i,x.quantity)">+</button>
 
                 </td>
-                <td class="price">{{x.quantity * x.res.Prices[0].Price_product | currency:'VND' }}</td>
+                <td class="price">{{x.quantity * x.res.Prices[0]?.Price_product | currency:'VND' }}</td>
                 <td class="xoa"><i class="bi bi-trash3"(click)="Deletecart(i)"></i></td>
             </tr>
         </tbody>

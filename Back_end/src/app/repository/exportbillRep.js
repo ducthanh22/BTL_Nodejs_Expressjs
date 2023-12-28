@@ -43,9 +43,31 @@ class exportbillRepository extends BaseRepository {
                 model: detail_exportbill,
                 required: false,
               }
-            
           });
       return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async search(keyword, page, pageSize) {
+    try {
+      let whereCondition = {};
+      // Kiểm tra xem keyword có giá trị không
+      if (keyword) {
+        whereCondition = {
+          id: keyword
+        };
+      }
+      // Chuyển đổi pageSize thành một giá trị số
+      const numericPageSize = parseInt(pageSize);
+      const { count, rows } = await this.model.findAndCountAll({
+        where: whereCondition,
+        limit: numericPageSize,
+        offset: (page - 1) * numericPageSize,
+      });
+  
+      return { count, rows };
     } catch (error) {
       throw error;
     }

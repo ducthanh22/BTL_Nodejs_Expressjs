@@ -3,6 +3,8 @@ var db = require('../model/models/index');
 const products = require('../model/models/products')(db.sequelize, DataTypes);
 const color = require('../model/models/color')(db.sequelize, DataTypes);
 const price = require('../model/models/price')(db.sequelize, DataTypes);
+const size = require('../model/models/size')(db.sequelize, DataTypes);
+
 const categories = require('../model/models/categories')(db.sequelize, DataTypes);
 
 const { Op } = require('sequelize');
@@ -14,7 +16,7 @@ products.belongsTo(categories, { foreignKey: 'Idcategories' });
 products.hasMany(color, { foreignKey: 'ID_products' });
 products.hasMany(price, { foreignKey: 'Idproduct' });
 
-
+products.hasMany(size, { foreignKey: 'Id_product' });
 
 
 class productsRep {
@@ -43,6 +45,10 @@ class productsRep {
                 model: categories,
                 required: false,
               },
+              {
+                model: size,
+                required: false,
+              }
             ],
           });
       return data;
@@ -66,6 +72,10 @@ class productsRep {
           },
           {
             model: color,
+            required: false,
+          },
+          {
+            model: size,
             required: false,
           }
         ],
@@ -121,17 +131,22 @@ class productsRep {
       throw error;
     }
   }  
-  async searchAndPaginate(keyword, page=1, pageSize=10) {
+  async searchAndPaginate(keyword, page, pageSize) {
     try {
-      if (isNaN(page) || page < 1) {
-        page = 1;
-      }
-      const { count, rows } = await products.findAndCountAll({
-        where: {
+      // console.log(keyword)
+      let whereCondition = {};
+      // Kiểm tra xem keyword có giá trị không
+      if (keyword && keyword.trim() !== "") {
+        whereCondition = {
           name: {
             [Op.like]: `%${keyword}%`,
           },
-        },
+        };
+      }
+      // Chuyển đổi pageSize thành một giá trị số
+      const numericPageSize = parseInt(pageSize);
+      const { count, rows } = await products.findAndCountAll({
+        where: whereCondition,
         include: [
           {
             model: price,
@@ -142,8 +157,8 @@ class productsRep {
             required: false,
           }
         ],
-        limit: pageSize,
-        offset: (page - 1) * pageSize,
+        limit: numericPageSize,
+        offset: (page - 1) * numericPageSize,
       });
       return { count, rows };
     } catch (error) {

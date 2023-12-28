@@ -1,16 +1,23 @@
 const {DataTypes,Op } = require('sequelize'); 
-
-
 var db = require('../model/models/index');
 const sequelize = db.sequelize; 
 const order = require('../model/models/order')(db.sequelize, DataTypes);
 const BaseRepository = require('./common/Base');
 const order_detail= require('../model/models/order_detail')(db.sequelize, DataTypes);
 const customer= require('../model/models/users')(db.sequelize, DataTypes);
+const products= require('../model/models/products')(db.sequelize, DataTypes);
+
 
 
 order.hasMany(order_detail, { foreignKey: 'Id_product' });
+
+order.belongsTo(customer, {foreignKey: 'Id_customer'});
 customer.hasMany(order, { foreignKey: 'Id_customer' });
+
+products.hasMany(products, { foreignKey: 'Id_product' });
+products.belongsTo(products, {foreignKey: 'Id_product'});
+
+
 
 class OrderRepository extends BaseRepository {
   constructor() {
@@ -45,10 +52,12 @@ class OrderRepository extends BaseRepository {
     try {
         const data = await order.findByPk(id, {
             include: 
-              {
-                model: order_detail,
+              [{
+                model: customer,
                 required: false,
-              }
+              },
+              
+            ]
             
           });
       return data;
@@ -72,13 +81,17 @@ class OrderRepository extends BaseRepository {
       }
       // Chuyển đổi pageSize thành một giá trị số
       const numericPageSize = parseInt(pageSize);
-      const { count, rows } = await customer.findAndCountAll({
+      const { count, rows } = await order.findAndCountAll({
         where: whereCondition,
         limit: numericPageSize,
         offset: (page - 1) * numericPageSize,
         include:[
+          // {
+          //   model:order_detail,
+          //   required:false
+          // },
           {
-            model:order,
+            model:customer,
             required:false
           }
         ]

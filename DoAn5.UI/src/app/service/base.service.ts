@@ -31,9 +31,9 @@ export class BaseService<T> {
       .get<BaseQuerieResponse<T>>(`${this.actionUrl}/Search`,{params})
       .pipe(first());
   }
-    create<T>(data: T): Observable<BaseCommandResponse> {
+    create<T>(data: T): Observable<any> {
     return this._http
-      .post<BaseCommandResponse>(`${this.actionUrl}/create`, data)
+      .post<any>(`${this.actionUrl}/create`, data)
       .pipe(first());
   }
 

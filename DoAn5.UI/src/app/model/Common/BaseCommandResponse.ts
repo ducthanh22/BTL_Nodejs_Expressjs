@@ -1,5 +1,5 @@
 export interface BaseCommandResponse {
-    id: string;
+    id: any;
     success: boolean;
     message: string;
     errors: string[];

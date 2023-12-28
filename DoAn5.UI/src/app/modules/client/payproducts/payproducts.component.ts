@@ -49,10 +49,10 @@ export class PayproductsComponent {
         Quantity: item.quantity, 
         Price: item.res.Prices[0].Price_product 
       }));
-  
       // Create an order object
       const order: OrderDto = {
         Id_customer: this.informationToken.id,
+        Price: this.getTotalPrice(),
         status:false,
         address: this.FormOrder.get('address')?.value,
         Order_details: orderDetails,
@@ -61,10 +61,10 @@ export class PayproductsComponent {
       this.OrderService.create(order).subscribe({
         next: (res) => {
           if (res != null) {
-            // Reset the form or perform any other actions after successful creation
             this.FormOrder.reset();
             this.Carts=[]
-            this.CategoriesService.saveCart(this.Carts)
+            this.CategoriesService.saveCart(this.Carts);
+            alert('Đặt hàng thành công')
           }
         },
         error: (e) => {

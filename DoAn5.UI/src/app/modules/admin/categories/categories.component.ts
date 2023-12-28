@@ -26,16 +26,16 @@ export class CategoriesComponent {
   Categories!: CategoriesDto[];
   datas: CategoriesDto[] = [];
   dataTotalRecords!: number;
- 
+
   FormCategories!: FormGroup;
   messageService: any;
-  name!:string;
+  name!: string;
 
-  showAlert:boolean=false;
+  showAlert: boolean = false;
   categoryData!: CategoriesDto;
   totalPages!: number;
   totalPageArray: any[] = [];
-  title:string=''
+  title: string = ''
   constructor(
     private categoriesService: CategoriesService,
     private fb: FormBuilder) {
@@ -48,7 +48,7 @@ export class CategoriesComponent {
       id: new FormControl(''),
       name: new FormControl('', Validators.required),
     });
-    
+
   }
 
 
@@ -79,7 +79,7 @@ export class CategoriesComponent {
       },
     });
   }
-  
+
   Nextdata() {
     if (this.page < this.totalPages) {
       this.page = this.page + 1;
@@ -98,7 +98,7 @@ export class CategoriesComponent {
     this.loadData();
   }
 
-  edit(x:any) {
+  edit(x: any) {
     this.FormCategories.controls['id'].setValue(x.id);
     this.FormCategories.controls['name'].setValue(x.name);
   }
@@ -110,9 +110,8 @@ export class CategoriesComponent {
         next: (res) => {
           if (res != null) {
             this.FormCategories.reset();
-            // this.table.reset();
             this.loadData()
-            this.title='Thêm thành công';
+            this.title = 'Thêm thành công';
             this.addSuccess()
           }
         },
@@ -122,7 +121,7 @@ export class CategoriesComponent {
       });
     }
   }
-  
+
   Update() {
     if (this.FormCategories.valid) {
       const categiries = this.FormCategories.value;
@@ -130,10 +129,10 @@ export class CategoriesComponent {
         next: (res) => {
           if (res != null) {
             this.FormCategories.reset();
-            this.title='Sửa thành công ';
+            this.title = 'Sửa thành công ';
             // this.table.reset();
             this.loadData()
-                  this.addSuccess();
+            this.addSuccess();
           }
         },
         error: (e) => {
@@ -143,14 +142,14 @@ export class CategoriesComponent {
     }
   }
 
-  delete(x:any){
-    if(confirm('Bạn có muốn xóa không?')){
+  delete(x: any) {
+    if (confirm('Bạn có muốn xóa không?')) {
       this.categoriesService.delete(x.id).subscribe({
-        next:(res)=>{
+        next: (res) => {
           if (res != null) {
             this.FormCategories.reset();
             this.loadData();
-            this.title='Xóa thành công';
+            this.title = 'Xóa thành công';
             this.addSuccess();
           }
         }

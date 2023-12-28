@@ -12,12 +12,21 @@ import { CalendarModule } from 'primeng/calendar';
 import { ChartModule } from 'primeng/chart';
 import { DialogModule } from 'primeng/dialog';
 import { ProductsComponent } from './products/products.component';
+import { OrderComponent } from './order/order.component';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { ExportbillComponent } from './exportbill/exportbill.component';
+import { ProducesComponent } from './produces/produces.component';
+
+
 
 @NgModule({
   declarations: [
     DashboardComponent,
     CategoriesComponent,
     ProductsComponent,
+    OrderComponent,
+    ExportbillComponent,
+    ProducesComponent,
   
   
   ],
@@ -32,7 +41,10 @@ import { ProductsComponent } from './products/products.component';
     ChartModule,
     DialogModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    CKEditorModule
+
+
     
     
 

@@ -6,7 +6,7 @@ const Controller = require('../app/controller/order_detailController');
 router.get('/getall', Controller.getAll);
 router.post('/create', Controller.create);
 router.put('/update', Controller.update);
-router.get('/getbyid', Controller.getbyid);
+router.get('/getbyid/:id', Controller.getbyid);
 router.get('/delete', Controller.delete);
 router.get('/search', Controller.searchAndPaginate);
 module.exports = router;
