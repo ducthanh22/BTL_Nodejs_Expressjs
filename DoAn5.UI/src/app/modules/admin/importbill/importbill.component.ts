@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { importbillDto } from 'src/app/model';
+import { LoginService } from 'src/app/service';
 import { ImportBillService } from 'src/app/service/importbill.service';
 
 @Component({
@@ -14,24 +16,25 @@ export class ImportbillComponent {
   pageSize: number = 10;
   keyword: string = '';
   dataTotalRecords!: number;
-
   datas:any[]=[];
   totalPages!: number;
   totalPageArray: any[] = [];
   title: string = ''
 
-  invoiceName: string = '';
-  invoiceItems: any[] = [{ name: '', quantity: 0 }];
+  importdata!:importbillDto
+infortoken:any;
+
+  invoiceItems: any[] = [{ Idproduct:0, Price: 0 ,Quantity:0}];
   constructor(
-    private importbillSV: ImportBillService) {
+    private importbillSV: ImportBillService,
+    private LoginSV:LoginService) {
   }
 
   ngOnInit() {
     // this.LoadCategories();
+    this.infortoken= this.LoginSV.decodeToken();
     this.loadData();
   }
-
-
   onSubmitSearch() {
     this.loadData(this.keyword);
   };
@@ -73,16 +76,38 @@ export class ImportbillComponent {
   }
 
   addInvoiceItem() {
-    this.invoiceItems.push({ name: '', quantity: 0 });
+    this.invoiceItems.push({ Idproduct: 0, Price: 0 ,Quantity:0});
   }
 
   removeInvoiceItem(index: number) {
     this.invoiceItems.splice(index, 1);
   }
-
+  reset(){
+    this.invoiceItems=[{ Idproduct: 0, Price: 0 ,Quantity:0}]
+  }
+  getTotalPrice(): number {
+ 
+    let total: number = 0;
+    this.invoiceItems.forEach((item: any) => {
+      total += item.Price * item.Quantity;
+    });
+    return total;
+  }
   saveInvoice() {
-    // Perform save operation, e.g., send data to the server
-    console.log('Invoice Name:', this.invoiceName);
+    this.importdata = {
+      id: null,
+      Id_customer: this.infortoken?.id || 0, 
+      Price: this.getTotalPrice(),
+      Detail_importbills: this.invoiceItems
+    };
+    this.importbillSV.create(this.importdata).subscribe({
+      next:(res)=>{
+        if(res != null){
+          this.loadData();
+          alert("Thêm hóa đơn nhập thành công")
+        }
+      }
+    })
     console.log('Invoice Items:', this.invoiceItems);
   }
 }

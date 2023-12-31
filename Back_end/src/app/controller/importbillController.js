@@ -31,6 +31,7 @@ class importbillController {
     try {
       const orderData = req.body;
       const orderDetailsData = req.body.Detail_importbills;
+      console.log(req.body)
    
       const newCategory = await Rep.createMany(orderData, orderDetailsData);
       res.status(201).json({
@@ -74,7 +75,7 @@ class importbillController {
 
   async  searchAndPaginate(req, res) {
     try {
-      const { keyword, page, pageSize } = req.body;
+      const { keyword, page, pageSize } = req.query;
       const { count, rows } = await Rep.searchAndPaginate(keyword, page, pageSize);
       res.status(200).json({ count, rows });
     } catch (error) {
