@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
+import { Detail_exportbillsDto, exportbillDto } from 'src/app/model';
 import { OrderService } from 'src/app/service';
 import { Order_detailService } from 'src/app/service/Order_detail.service';
+import { ExportBillService } from 'src/app/service/exportbill.service';
 
 @Component({
   selector: 'app-order',
@@ -8,22 +10,24 @@ import { Order_detailService } from 'src/app/service/Order_detail.service';
   styleUrls: ['./order.component.css']
 })
 export class OrderComponent {
-  loading:boolean=false;
-  page:number=1;
-  pageSize:number=10;
-  keyword:string='';
-  datas!:any[];
-  dataTotalRecords!:number;
-  totalPages!:number;
-  totalPageArray:any[]=[];
-  order:any;
-  detail:any
+  loading: boolean = false;
+  page: number = 1;
+  pageSize: number = 10;
+  keyword: string = '';
+  datas!: any[];
+  dataTotalRecords!: number;
+  totalPages!: number;
+  totalPageArray: any[] = [];
+  order: any;
+  detail: any;
+  ExportBill!: exportbillDto;
 
-  constructor(private OrderService:OrderService,private order_detail:Order_detailService){}
+  constructor(private OrderService: OrderService, private order_detail: Order_detailService,
+    private ExportbillSv: ExportBillService) { }
 
- 
+
   ngOnInit() {
-    this.loadData(); 
+    this.loadData();
   }
   onSubmitSearch() {
     this.loadData(this.keyword);
@@ -46,7 +50,7 @@ export class OrderComponent {
       },
     });
   }
-  
+
   Nextdata() {
     if (this.page < this.totalPages) {
       this.page = this.page + 1;
@@ -65,21 +69,21 @@ export class OrderComponent {
     this.loadData();
   }
 
-  
-  getbydetail(x:any){
+
+  getbydetail(x: any) {
     this.order_detail.getbyid(x).subscribe({
-      next:(res)=>{
-    this.detail=res;
-    console.log(this.detail)
-    this.getbyid(this.detail[0].Id_Order);
+      next: (res) => {
+        this.detail = res;
+        // console.log(this.detail)
+        this.getbyid(this.detail[0].Id_Order);
       }
     })
   }
 
-  getbyid(x:any){
+  getbyid(x: any) {
     this.OrderService.getbyid(x).subscribe({
-      next:(res)=>{
-    this.order=res;
+      next: (res) => {
+        this.order = res;
       }
     })
   }
@@ -91,5 +95,50 @@ export class OrderComponent {
   //   });
   //   return total;
   // }
+
+  CreateExportBill(x: any) {
+    this.getbydetail(x);
+    if (this.detail != null) {
+      const Detail_exportbills: Detail_exportbillsDto[] = this.detail.map((item: any) => ({
+        Id_product: item.Id_product,
+        Idproduct: item.Id_product,
+        Quantity: item.Quantity,
+        Price: item.Price
+      }));
+      const data: exportbillDto = {
+        Id_customer: this.order.id,
+        Price: this.order.Price,
+        Detail_exportbills: Detail_exportbills,
+        id: null
+      };
+      this.ExportbillSv.create(data).subscribe({
+        next: (res) => {
+          if (res != null) {
+            alert('Thêm hóa đơn bán thành công')
+          }
+        },
+        error: (e) => {
+          console.error(e);
+        },
+      });
+    } else {
+      console.warn('Giỏ hàng trống');
+    }
+  }
+
+  Update(x:number, s:number ){
+    this.CreateExportBill(x);
+    this.getbyid(x);
+    let data = this.order;
+    data.status=s;
+    this.OrderService.update(data).subscribe({
+      next:(res)=>{
+        if(res != null){
+          this.loadData();
+          alert('Đổi trạng thái thành công');
+        }
+      }
+    });
   
+  }
 }

@@ -29,10 +29,6 @@ class order_detailRepository extends BaseRepository {
             model: products,
             required: false,
           },
-          // {
-          //   model: products,
-          //   required: false,
-          // },
         ],
       });
       return data;
@@ -40,6 +36,7 @@ class order_detailRepository extends BaseRepository {
       throw error;
     }
   }
+  
   
 }
 

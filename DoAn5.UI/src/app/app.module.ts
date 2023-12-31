@@ -24,8 +24,6 @@ import { TokenInterceptor } from './service/core/token.interceptor';
     TemplateModule,
     TemplateRoutingModule,
     HttpClientModule,
-   
-   
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

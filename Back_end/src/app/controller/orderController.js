@@ -25,6 +25,19 @@ class OrderController {
       res.status(500).json({ message: 'Internal Server Error', error: error.message });
     }
   }
+  async getbyuser(req, res) {
+    try {
+      const id = req.params.id;
+      const data = await OrderRep.getbyuser(id);
+      if (!data) {
+        return res.status(404).json({ message: 'Order not found' });
+      }
+      res.status(200).json(data);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal Server Error', error: error.message });
+    }
+  }
   
   async create(req, res) {
     try {

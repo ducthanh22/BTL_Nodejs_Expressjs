@@ -1,4 +1,3 @@
-import { BasedbDto } from "./Common/BaseDto";
 
 export interface OrderDto {
     id:number|null,
@@ -12,7 +11,6 @@ export interface OrderDto {
 
 export interface Order_detailsDto {
     id:number|null,
-
     Id_Order: number| null,
     Id_product: number| null,
     Quantity: number,

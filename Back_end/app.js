@@ -26,6 +26,11 @@ var exportbill= require('./src/routes/exportbill')
 var importbill= require('./src/routes/importbill')
 var acount= require('./src/routes/acount')
 var Produces= require('./src/routes/Produces')
+var size= require('./src/routes/size')
+var price= require('./src/routes/price')
+
+
+
 
 
 
@@ -62,15 +67,14 @@ app.use('/categories',categoriesRoute);
 app.use('/products',productRoute);
 app.use('/order',orderRoute);
 app.use('/order_detail',order_detail);
-
 app.use('/color',colorRoute);
 app.use('/detail_exportbill',detail_exportbillRoute);
 app.use('/detail_importbill',detail_importbillRoute);
 app.use('/exportbill',exportbill);
 app.use('/importbill',importbill);
-
 app.use('/produces',Produces);
-
+app.use('/size',size);
+app.use('/price',price);
 app.use('/account',acount);
 
 

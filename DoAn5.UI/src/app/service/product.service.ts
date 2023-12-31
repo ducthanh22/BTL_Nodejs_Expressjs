@@ -22,4 +22,14 @@ export class ProductService extends BaseService<any> {
       .pipe(first());
   }
 
+
+  getNewproduct( page: number, pageSize: number): Observable<BaseQuerieResponse<any>> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('pageSize', pageSize.toString())
+    return this._http
+      .get<BaseQuerieResponse<any>>(`${this.actionUrl}/getnewproduct`,{params})
+      .pipe(first());
+  }
+
 }

@@ -71,7 +71,7 @@ class ProducesController {
 
   async  searchAndPaginate(req, res) {
     try {
-      const { keyword, page, pageSize } = req.body;
+      const { keyword, page, pageSize } = req.query;
       const { count, rows } = await Rep.searchAndPaginate(keyword, page, pageSize);
       res.status(200).json({ count, rows });
     } catch (error) {

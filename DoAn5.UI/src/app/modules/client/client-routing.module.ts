@@ -9,6 +9,7 @@ import { ContactComponent } from './contact/contact.component';
 import { CartComponent } from './cart/cart.component';
 import { DetailproductsComponent } from './detailproducts/detailproducts.component';
 import { PayproductsComponent } from './payproducts/payproducts.component';
+import { CartDetailComponent } from './cart-detail/cart-detail.component';
 
 
 const routes: Routes = [
@@ -49,7 +50,11 @@ const routes: Routes = [
      {path:'cart',component:CartComponent,title:'Cart'},
 
      {path:'detail/:id',component:DetailproductsComponent,title:'Detail'},
-     {path:'pay',component:PayproductsComponent,title:'Pay'}
+     
+     {path:'pay',component:PayproductsComponent,title:'Pay'},
+
+     {path:'cart_detail',component:CartDetailComponent,title:'cart_detail'}
+
     
   
 

@@ -15,7 +15,7 @@ class ColorController {
   
   async getbyid(req, res) {
     try {
-      const id = req.body.id;
+      const id = req.params.id;
       const data = await Rep.getbyids(id);
       if (!data) {
         return res.status(404).json({ message: ' not found' });
@@ -29,7 +29,8 @@ class ColorController {
   async create(req, res) {
     try {
       const orderData = req.body;
-      const orderDetailsData = req.body.Detail_importbills;
+      const orderDetailsData = req.body.Detail_exportbills;
+      console.log("orderDetailsData",orderDetailsData)
       const newCategory = await Rep.createMany(orderData, orderDetailsData);
       res.status(201).json({
         message: ' created successfully',

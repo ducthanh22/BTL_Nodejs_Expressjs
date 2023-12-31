@@ -4,17 +4,16 @@ const products = require('../model/models/products')(db.sequelize, DataTypes);
 const color = require('../model/models/color')(db.sequelize, DataTypes);
 const price = require('../model/models/price')(db.sequelize, DataTypes);
 const size = require('../model/models/size')(db.sequelize, DataTypes);
-
 const categories = require('../model/models/categories')(db.sequelize, DataTypes);
-
 const { Op } = require('sequelize');
 const path = require('path');
 const fs = require('fs').promises;
 
 products.belongsTo(categories, { foreignKey: 'Idcategories' });
 
-products.hasMany(color, { foreignKey: 'ID_products' });
-products.hasMany(price, { foreignKey: 'Idproduct' });
+products.hasMany(color, { foreignKey: 'Id_product' });
+
+products.hasMany(price, { foreignKey: 'Id_product' });
 
 products.hasMany(size, { foreignKey: 'Id_product' });
 
@@ -58,8 +57,7 @@ class productsRep {
   }
 
  async getcategories(id,page=1, pageSize=10){
-    try{
-      
+    try{ 
       // Chuyển đổi pageSize thành một giá trị số
       const numericPageSize = parseInt(pageSize);
       const { count, rows } = await products.findAndCountAll({
@@ -89,6 +87,37 @@ class productsRep {
       throw error
     }
   }
+  async getNewestProducts(page = 1, pageSize = 6) {
+    try {
+      const numericPageSize = parseInt(pageSize);
+      const { count, rows } = await products.findAndCountAll({
+        order: [['createdAt', 'DESC']], // Sắp xếp theo thời gian tạo giảm dần (tăng ASC)
+        include: [
+          {
+            model: price,
+            required: false,
+          },
+          {
+            model: color,
+            required: false,
+          },
+          {
+            model: size,
+            required: false,
+          },
+        ],
+        limit: numericPageSize,
+        offset: (page - 1) * numericPageSize,
+      });
+  
+      return { count, rows };
+    } catch (error) {
+      throw error;
+    }
+  }
+  
+  
+  
 
   async Create(Data) {
     try {
@@ -118,7 +147,23 @@ class productsRep {
       const existing = await products.findByPk(id);
       if (existing) {
         // Sử dụng phương thức destroy để xóa bản ghi
-        const deletedCategoryCount = await products.destroy({ where: { id } });
+        const deletedCategoryCount = await products.destroy({ where: { id } },
+          {
+            include: [
+              {
+                model: color,
+                required: false,
+              },
+              {
+                model: price,
+                required: false,
+              },
+              {
+                model: size,
+                required: false,
+              }
+            ],
+          });
         if (deletedCategoryCount > 0) {
           return { message: `Đã xóa ID ${id}` };
         } else {
@@ -154,6 +199,10 @@ class productsRep {
           },
           {
             model: color,
+            required: false,
+          },
+          {
+            model: size,
             required: false,
           }
         ],

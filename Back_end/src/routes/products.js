@@ -11,6 +11,8 @@ router.get('/getcategories', productsController.getcategories);
 
 router.get('/delete/:id', productsController.delete);
 router.get('/search', productsController.searchAndPaginate);
-router.post('/upload', productsController.Fileupload);
+router.get('/getnewproduct', productsController.getnewproduct);
+
+// router.post('/upload', productsController.Fileupload);
 
 module.exports = router;

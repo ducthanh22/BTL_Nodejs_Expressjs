@@ -1,21 +1,21 @@
-const {DataTypes,Op } = require('sequelize'); 
+const { DataTypes, Op } = require('sequelize');
 var db = require('../model/models/index');
-const sequelize = db.sequelize; 
+const sequelize = db.sequelize;
 const order = require('../model/models/order')(db.sequelize, DataTypes);
 const BaseRepository = require('./common/Base');
-const order_detail= require('../model/models/order_detail')(db.sequelize, DataTypes);
-const customer= require('../model/models/users')(db.sequelize, DataTypes);
-const products= require('../model/models/products')(db.sequelize, DataTypes);
+const order_detail = require('../model/models/order_detail')(db.sequelize, DataTypes);
+const customer = require('../model/models/users')(db.sequelize, DataTypes);
+const products = require('../model/models/products')(db.sequelize, DataTypes);
 
 
 
 order.hasMany(order_detail, { foreignKey: 'Id_product' });
 
-order.belongsTo(customer, {foreignKey: 'Id_customer'});
+order.belongsTo(customer, { foreignKey: 'Id_customer' });
 customer.hasMany(order, { foreignKey: 'Id_customer' });
 
 products.hasMany(products, { foreignKey: 'Id_product' });
-products.belongsTo(products, {foreignKey: 'Id_product'});
+products.belongsTo(products, { foreignKey: 'Id_product' });
 
 
 
@@ -50,25 +50,43 @@ class OrderRepository extends BaseRepository {
 
   async getbyids(id) {
     try {
-        const data = await order.findByPk(id, {
-            include: 
-              [{
-                model: customer,
-                required: false,
-              },
-              
-            ]
-            
-          });
+      const data = await order.findByPk(id, {
+        include:
+          [{
+            model: customer,
+            required: false,
+          },
+
+          ]
+
+      });
       return data;
     } catch (error) {
       throw error;
     }
   }
 
+  async getbyuser(id) {
+    try {
+      const data = await order.findAll({
+        where: { Id_customer: id },
+        // include:
+        //   [{
+        //     model: customer,
+        //     required: false,
+        //   },
+
+        //   ]
+
+      });
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
   async searchAndPaginateOrder(keyword, page, pageSize) {
     try {
-     
+
       let whereCondition = {};
       // Kiểm tra xem keyword có giá trị không
       if (keyword && keyword.trim() !== "") {
@@ -85,14 +103,14 @@ class OrderRepository extends BaseRepository {
         where: whereCondition,
         limit: numericPageSize,
         offset: (page - 1) * numericPageSize,
-        include:[
+        include: [
           // {
           //   model:order_detail,
           //   required:false
           // },
           {
-            model:customer,
-            required:false
+            model: customer,
+            required: false
           }
         ]
       });
@@ -102,8 +120,8 @@ class OrderRepository extends BaseRepository {
     }
   }
 
-  
-  
+
+
 }
 
 module.exports = new OrderRepository();

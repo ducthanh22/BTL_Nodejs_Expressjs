@@ -9,10 +9,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      name: {
+      ColorName: {
         type: Sequelize.STRING
       },
-      ID_products: {
+      Id_product: {
         type: Sequelize.INTEGER
       },
       createdAt: {

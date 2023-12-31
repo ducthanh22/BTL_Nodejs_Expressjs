@@ -35,10 +35,16 @@
             <tbody>
                 <tr *ngFor="let x of datas">
                     <td class="text-center">{{x.id}}</td>
-                    <td class="text-center" (click)="getbydetail(x.id)"data-bs-toggle="modal" data-bs-target="#detail">{{x.User.name}}</td>
-                 
+                    <td class="text-center" (click)="getbydetail(x.id)" data-bs-toggle="modal" data-bs-target="#detail">
+                        {{x.User.name}}</td>
+
                     <td class="text-center">{{x.address }}</td>
-                    <td class="text-center">{{x.status}}</td>
+                    <td class="text-center" *ngIf="x.status==0" style="color: rgb(255, 170, 0);"
+                        (click)="Update(x.id,1)">Chờ duyệt</td>
+                    <td class="text-center" *ngIf="x.status==1" style="color: rgb(0, 64, 255);"
+                        >Xác nhận hoàn thành</td>
+                    <!-- <td class="text-center" *ngIf="x.status==2" style="color: rgb(0, 255, 89);">Hoàn thành</td> -->
+
                     <td>
                         <i class="bi bi-pencil-square" data-bs-toggle="modal" data-bs-target="#edit"
                             style="color: rgb(6, 60, 253); margin-left: 10px; "></i>
@@ -68,63 +74,57 @@
 
 
 
-  
-  <!-- Modal -->
-  <div class="modal fade" id="detail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+<!-- Modal -->
+<div class="modal fade" id="detail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog  modal-fullscreen">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Chi tiết </h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">    
-            <a>Tên Khách hàng : {{order?.User.name}}</a>
-            <br>
-            <a>Email : {{order?.User.email}}</a>   <br>
-            <a>Số điện thoại : {{order?.User.sdt}}</a>   <br>
-            <a>Địa chỉ : {{order?.address}}</a>
-            <div style="max-height: 320px; overflow: auto;">
-                <table class="table table-hover table-bordered">
-                    <thead>
-                        <tr class="table-primary">
-                            <th scope="col" class="text-center" style="width:10%">Mã chi tiết</th>
-                            <th scope="col" class="text-center" style="width:10%">Mã đơn hàng</th>
-                            <th scope="col" class="text-center" style="width:20%">Ảnh</th>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Chi tiết </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <a>Tên Khách hàng : {{order?.User.name}}</a>
+                <br>
+                <a>Email :  {{order?.User.email}}</a> <br>
+                <a>Số điện thoại :  {{order?.User.sdt}}</a> <br>
+                <a>Địa chỉ :  {{order?.address}}</a>
+                <div style="max-height: 320px; overflow: auto;">
+                    <table class="table table-hover table-bordered">
+                        <thead>
+                            <tr class="table-primary">
+                                <th scope="col" class="text-center" style="width:10%">Mã chi tiết</th>
+                                <th scope="col" class="text-center" style="width:10%">Mã đơn hàng</th>
+                                <th scope="col" class="text-center" style="width:20%">Ảnh</th>
+                                <th scope="col" class="text-center" style="width:20%">Tên sản phẩm</th>
+                                <th scope="col" class="text-center" style="width:10%">giá</th>
+                                <th scope="col" class="text-center" style="width:10%">Số lượng</th>
+                                <th scope="col" class="text-center" style="width:20%">Tổng</th>
+                            </tr>
+                        </thead>
+                        <tbody>
 
-                            <th scope="col" class="text-center" style="width:20%">Tên sản phẩm</th>
-                            
-                            <th scope="col" class="text-center" style="width:10%">giá</th>
-                            <th scope="col" class="text-center" style="width:10%">Số lượng</th>
-                            <th scope="col" class="text-center" style="width:20%">Tổng</th>
+                            <tr *ngFor="let x of detail">
+                                <td class="text-center">{{x.id}}</td>
+                                <td class="text-center">{{x.Id_Order}}</td>
+                                <td class="text-center"><img src="./assets/admin/img/{{x.Product.Image}}"
+                                        style="width: 100px;"></td>
+                                <td class="text-center">{{x.Product.Name}}</td>
+                                <td class="text-center">{{x.Price | currency:'VND' }}</td>
+                                <td class="text-center">{{x.Quantity}}</td>
+                                <td class="text-center">{{x.Quantity*x.Price | currency:'VND' }}</td>
 
 
-                            
-                        </tr>
-                    </thead>
-                    <tbody>
-    
-                        <tr *ngFor="let x of detail">
-                            <td class="text-center">{{x.id}}</td>
-                            <td class="text-center">{{x.Id_Order}}</td>
-                            <td class="text-center" ><img src="./assets/admin/img/{{x.Product.Image}}" style="width: 100px;"></td>
-
-                            <td class="text-center" >{{x.Product.Name}}</td>
-                         
-                            <td class="text-center">{{x.Price | currency:'VND' }}</td>
-                            <td class="text-center">{{x.Quantity}}</td>
-                            <td class="text-center">{{x.Quantity*x.Price | currency:'VND' }}</td>
-
-                           
-                        </tr>
-                    </tbody>
-                </table>
-                <p class="total-price">Tổng: {{order?.Price | currency:'VND'}}</p>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="total-price">Tổng: {{order?.Price | currency:'VND'}}</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
             </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
-        </div>
-      </div>
     </div>
-  </div>
+</div>

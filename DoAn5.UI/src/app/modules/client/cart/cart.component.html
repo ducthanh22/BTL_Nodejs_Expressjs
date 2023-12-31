@@ -1,4 +1,9 @@
-<h1 style="margin-left: 2em; font-weight: 50;">Giỏ hàng</h1>
+
+<div style="display: flex;margin-bottom: 20px;">
+    <div><a style="margin-left: 2.5em; font: weight 1px; font-size: 30px;color: rgb(255, 115, 0);">Giỏ hàng</a></div>
+    <div><a style="margin-left: 2em; font: weight 1px;font-size: 30px;"href="/client/cart_detail">Đơn hàng của bạn</a></div>
+</div>
+
 <div style="width: 90%; margin-left: 5%;" *ngIf="Carts.length">
     <table class="table">
         <thead>
@@ -17,9 +22,9 @@
                 <td class="img"><img style="width: 30%;margin-left: 95px;" src="./assets/admin/img/{{x.res.Image}}" /></td>
                 <td class="name">{{x.res.Name}}</td>
                 <td class="quantity">
-                    <button (click)="Downquantity(i,x.quantity)">-</button>
-                    <input (change)="Updatequantity(i,$event)" type="number" [value]="x.quantity" style="width: 60px;text-align: center;" min="0">
-                    <button (click)="Upquantity(i,x.quantity)">+</button>
+                    <button (click)="Downquantity(i,x.quantity)" style="border: 2px solid rgb(129, 211, 241);background-color: white; margin-right: 1px;width: 25px;">-</button>
+                    <input (change)="Updatequantity(i,$event)" type="number" [value]="x.quantity" style="width: 20%;text-align: center;border: 2px solid rgb(129, 211, 241);margin-right: 1px;" min="0">
+                    <button (click)="Upquantity(i,x.quantity)"style="border: 2px solid rgb(129, 211, 241);background-color: white;">+</button>
 
                 </td>
                 <td class="price">{{x.quantity * x.res.Prices[0]?.Price_product | currency:'VND' }}</td>

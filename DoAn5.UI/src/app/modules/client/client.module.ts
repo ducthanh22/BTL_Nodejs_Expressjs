@@ -12,6 +12,8 @@ import { CartComponent } from './cart/cart.component';
 import { DetailproductsComponent } from './detailproducts/detailproducts.component';
 import { PayproductsComponent } from './payproducts/payproducts.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CartDetailComponent } from './cart-detail/cart-detail.component';
+
 
 
 
@@ -33,6 +35,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     CartComponent,
     DetailproductsComponent,
     PayproductsComponent,
+    CartDetailComponent,
     
 
   ],

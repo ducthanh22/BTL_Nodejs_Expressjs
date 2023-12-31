@@ -40,7 +40,6 @@ export class PayproductsComponent {
   SaveAdd() {
     // Assuming this.Carts is an array of items in the cart
     const cartItems = this.CategoriesService.GetCart();
-  
     // Check if there are items in the cart
     if (cartItems.length > 0) {
       const orderDetails: Order_detailsDto[] = cartItems.map((item:any) => ({

@@ -9,7 +9,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      Idproduct: {
+      Id_product: {
         type: Sequelize.INTEGER
       },
       Price_product: {

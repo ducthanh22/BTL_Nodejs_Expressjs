@@ -16,6 +16,7 @@ import { OrderComponent } from './order/order.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { ExportbillComponent } from './exportbill/exportbill.component';
 import { ProducesComponent } from './produces/produces.component';
+import { ImportbillComponent } from './importbill/importbill.component';
 
 
 
@@ -27,8 +28,7 @@ import { ProducesComponent } from './produces/produces.component';
     OrderComponent,
     ExportbillComponent,
     ProducesComponent,
-  
-  
+    ImportbillComponent,
   ],
   imports: [
     CommonModule,
@@ -43,11 +43,6 @@ import { ProducesComponent } from './produces/produces.component';
     ReactiveFormsModule,
     FormsModule,
     CKEditorModule
-
-
-    
-    
-
   ],
   providers: [
     CategoriesService,  

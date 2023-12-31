@@ -27,13 +27,13 @@
     <table class="table table-hover table-bordered">
       <thead>
         <tr class="table-primary">
-          <th scope="col" class="text-center" style="width:10%">Mã</th>
-          <th scope="col" class="text-center" style="width:20%">Ảnh</th>
-
-          <th scope="col" class="text-center" style="width:20%">Tên</th>
-          <th scope="col" class="text-center" style="width:40%">Mô tả</th>
-
-
+          <th scope="col" class="text-center" >Mã</th>
+          <th scope="col" class="text-center" >Ảnh</th>
+          <th scope="col" class="text-center" >Tên</th>
+          <th scope="col" class="text-center" >Size</th>
+          <th scope="col" class="text-center" >Giá</th>
+          <th scope="col" class="text-center" >Màu sắc</th>
+          <th scope="col" class="text-center" >Mô tả</th>
 
           <th scope="col" class="text-center" style="width:10%">Chức Năng</th>
         </tr>
@@ -43,11 +43,14 @@
           <th class="text-center">{{ x.id}}</th>
           <td class="text-center"><img src="./assets/admin/img/{{x.Image}}" style="width: 100px;"></td>
           <td class="text-center">{{ x.Name }}</td>
+          <td class="text-center">{{ x.Sizes[0]?.NameSize }}</td>
+          <td class="text-center">{{ x.Prices[0]?.Price_product | currency:'VND' }}</td>
+          <td class="text-center">{{ x.Colors[0]?.ColorName }}</td>
           <td class="text-center">{{ x.Describe }}</td>
           <td>
             <i class="bi bi-pencil-square" data-bs-toggle="modal" data-bs-target="#edit"
-              style="color: rgb(6, 60, 253); margin-left: 10px; " (click)="edit(x)"></i>
-            <i class="bi bi-trash3" style="color: red; margin-left: 30px;" (click)="Delete(x.id)"></i>
+              style="color: rgb(6, 60, 253);  " (click)="edit(x)"></i>
+            <i class="bi bi-trash3" style="color: red; margin-left: 30px; " (click)="Deletemanytable(x.id)"></i>
           </td>
         </tr>
       </tbody>
@@ -75,7 +78,7 @@
 <!-- Modal -->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
   aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="staticBackdropLabel">Thêm sản phẩm</h5>
@@ -103,8 +106,79 @@
               <!-- Tùy chọn mặc định, có thể thay đổi theo yêu cầu của bạn -->
               <option value="" disabled selected>-- Chọn nhà sản xuất --</option>
               <option *ngFor="let x of Dsproduces" [value]="x.id">{{ x.Name }}</option>
+            </select>
+          </div>
+          <div class="col-12 form-group">
+            <label for="name" class="col-form-label">Size: <span style="color: red;">*</span></label>
+            <input type="text" formControlName="NameSize" pInputText class="form-control" id="NameSize">
+          </div>
+          <div class="col-12 form-group">
+            <label for="name" class="col-form-label">Giá: <span style="color: red;">*</span></label>
+            <input type="text" formControlName="Price_product" pInputText class="form-control" id="Price_product">
+          </div>
+          <div class="col-12 form-group">
+            <label for="name" class="col-form-label">Màu sắc: <span style="color: red;">*</span></label>
+            <input type="text" formControlName="ColorName" pInputText class="form-control" id="ColorName">
+          </div>
+
+          <div class="col-12 form-group">
+            <label for="name" class="col-form-label">Mô tả: <span style="color: red;">*</span></label>
+            <!-- <textarea formControlName="Describe" pInputText class="form-control" id="Describe"></textarea> -->
+            <ckeditor [editor]="Editor"formControlName="Describe"class="form-control" id="Describe" ></ckeditor>
+          </div>
+          <div class="col-12 form-group">
+            <label for="name" class="col-form-label">Ảnh: <span style="color: red;">*</span></label>
+            <input type="file" formControlName="Image" (change)="onFileSelected($event)" pInputText class="form-control" id="Image"accept=".jpg,.png">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="bi bi-x" (click)="resetForm()"></i> Đóng</button>
+        <button *ngIf="FormProduts.valid" type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="SaveAdd()"><i
+            class="bi bi-floppy"></i> Lưu</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="edit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Sửa sản phẩm</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row" [formGroup]="FormProduts" enctype="multipart/form-data">
+          <div class="col-12 form-group">
+            <label for="name" class="col-form-label">Tên sản phẩm: <span style="color: red;">*</span></label>
+            <input type="text" formControlName="Name" pInputText class="form-control" id="Name">
+          </div>
+          <div class="col-12 form-group">
+            <label for="name" class="col-form-label">Danh mục: <span style="color: red;">*</span></label>
+            <select formControlName="Idcategories" class="form-control" id="Idproduces">
+              <!-- Tùy chọn mặc định, có thể thay đổi theo yêu cầu của bạn -->
+              <option value="" disabled selected>-- Chọn nhà sản xuất --</option>
+              <option *ngFor="let category of Dscategories" [value]="category.id">{{ category.name }}</option>
 
             </select>
+          </div>
+          <div class="col-12 form-group">
+            <label for="name" class="col-form-label">Nhà sản xuất: <span style="color: red;">*</span></label>
+            <select formControlName="Idproduces" class="form-control" id="Idproduces">
+              <!-- Tùy chọn mặc định, có thể thay đổi theo yêu cầu của bạn -->
+              <option value="" disabled selected>-- Chọn nhà sản xuất --</option>
+              <option *ngFor="let x of Dsproduces" [value]="x.id">{{ x.Name }}</option>
+            </select>
+          </div>
+          <div class="col-12 form-group">
+            <label for="name" class="col-form-label">Size: <span style="color: red;">*</span></label>
+            <input type="text" formControlName="NameSize" pInputText class="form-control" id="NameSize">
+          </div>
+          <div class="col-12 form-group">
+            <label for="name" class="col-form-label">Giá: <span style="color: red;">*</span></label>
+            <input type="text" formControlName="Price_product" pInputText class="form-control" id="Price_product">
           </div>
           <div class="col-12 form-group">
             <label for="name" class="col-form-label">Mô tả: <span style="color: red;">*</span></label>
@@ -118,62 +192,8 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="bi bi-x"></i> Đóng</button>
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="SaveAdd()"><i
-            class="bi bi-floppy"></i> Lưu</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade" id="edit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-  aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Sửa sản phẩm</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="row" [formGroup]="FormProduts">
-          <div class="col-12 form-group">
-            <label for="Name" class="col-form-label">Tên sản phẩm: <span style="color: red;">*</span></label>
-            <input type="text" formControlName="Name" pInputText class="form-control" id="Name">
-          </div>
-          <div class="col-12 form-group">
-            <label for="Idproduces" class="col-form-label">Danh mục: <span style="color: red;">*</span></label>
-            <select formControlName="Idproduces" class="form-control" id="Idproduces">
-              <!-- Tùy chọn mặc định, có thể thay đổi theo yêu cầu của bạn -->
-              <option value="" disabled selected>-- Chọn nhà sản xuất --</option>
-              <option *ngFor="let category of Dscategories" [value]="category.id">{{ category.name }}</option>
-
-            </select>
-          </div>
-          <div class="col-12 form-group">
-            <label for="Idproduces" class="col-form-label">Nhà sản xuất: <span style="color: red;">*</span></label>
-            <select formControlName="Idproduces" class="form-control" id="Idproduces">
-              <!-- Tùy chọn mặc định, có thể thay đổi theo yêu cầu của bạn -->
-              <option value="" disabled selected>-- Chọn nhà sản xuất --</option>
-              <option *ngFor="let x of Dsproduces" [value]="x.id">{{ x.Name }}</option>
-
-            </select>
-          </div>
-          <div class="col-12 form-group">
-            <label for="Describe" class="col-form-label">Mô tả: <span style="color: red;">*</span></label>
-            <!-- <textarea formControlName="Describe" pInputText class="form-control" id="Describe"></textarea> -->
-            <ckeditor [editor]="Editor"formControlName="Describe"class="form-control" id="Describe" ></ckeditor>
-
-          </div>
-
-          <div class="col-12 form-group">
-            <label for="Image" class="col-form-label">Ảnh: <span style="color: red;">*</span></label>
-            <input type="file" formControlName="Image" (change)="onFileSelected($event)" pInputText class="form-control" id="Image">
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="bi bi-x"></i> Đóng</button>
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="Update()"><i class="bi bi-floppy"></i> Lưu</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="bi bi-x" (click)="resetForm()"></i> Đóng</button>
+        <button  *ngIf="FormProduts.valid" type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="Update()"><i class="bi bi-floppy"></i> Lưu</button>
       </div>
     </div>
   </div>
