@@ -16,6 +16,7 @@ class OrderController {
     try {
       const id = req.params.id;
       const data = await OrderRep.getbyids(id);
+      console.log(data)
       if (!data) {
         return res.status(404).json({ message: 'Order not found' });
       }
@@ -59,10 +60,11 @@ class OrderController {
 
   async update(req, res) {
     const id = req.body.id;
-    const Data = req.body; // Dữ liệu cần cập nhật, gửi qua body của yêu cầu
+    const Data = req.body;
     try {
       const updatedCategory = await OrderRep.update(id, Data);
       res.status(200).json(updatedCategory);
+      console.log(updatedCategory)
     } catch (error) {
       res.status(500).json({ message: 'Internal Server Error', error: error.message });
     }

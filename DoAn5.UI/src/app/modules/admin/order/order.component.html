@@ -39,8 +39,7 @@
                         {{x.User.name}}</td>
 
                     <td class="text-center">{{x.address }}</td>
-                    <td class="text-center" *ngIf="x.status==0" style="color: rgb(255, 170, 0);"
-                        (click)="Update(x.id,1)">Chờ duyệt</td>
+                    <td class="text-center" *ngIf="x.status==0" style="color: rgb(255, 170, 0);"><button  (click)="update(x.id)">Chờ duyệt</button></td>
                     <td class="text-center" *ngIf="x.status==1" style="color: rgb(0, 64, 255);"
                         >Xác nhận hoàn thành</td>
                     <!-- <td class="text-center" *ngIf="x.status==2" style="color: rgb(0, 255, 89);">Hoàn thành</td> -->

@@ -43,7 +43,7 @@ export class BaseService<T> {
 
   update<T>(data: T): Observable<BaseCommandResponse> {
     return this._http
-      .put<BaseCommandResponse>(`${this.actionUrl}/update`, data)
+      .post<BaseCommandResponse>(`${this.actionUrl}/update`, data)
       .pipe(first());
   }
   delete<T>(id:number): Observable<T> {

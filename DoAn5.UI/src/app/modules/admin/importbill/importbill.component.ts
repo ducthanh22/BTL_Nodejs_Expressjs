@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { importbillDto } from 'src/app/model';
-import { LoginService } from 'src/app/service';
+import { LoginService, ProductService } from 'src/app/service';
 import { ImportBillService } from 'src/app/service/importbill.service';
+import { WarehoureService } from 'src/app/service/warehouse.service';
+import { Warehoure_DetailService } from 'src/app/service/warehouse_detail.service';
 
 @Component({
   selector: 'app-importbill',
@@ -10,7 +12,7 @@ import { ImportBillService } from 'src/app/service/importbill.service';
 })
 export class ImportbillComponent {
   
-  Dscategories: any[] = [];
+  Dsporduct: any[] = [];
   loading: boolean = true;
   page: number = 1;
   pageSize: number = 10;
@@ -22,22 +24,46 @@ export class ImportbillComponent {
   title: string = ''
 
   importdata!:importbillDto
-infortoken:any;
-
-  invoiceItems: any[] = [{ Idproduct:0, Price: 0 ,Quantity:0}];
+  infortoken:any;
+  invoiceItems: any = [{ Idproduct:0, Price: 0 ,Quantity:0}];
+  Dswarehouse:any[]=[]
   constructor(
     private importbillSV: ImportBillService,
-    private LoginSV:LoginService) {
+    private LoginSV:LoginService,
+    private ProductSV :ProductService,
+    private warehouse_detailSV :Warehoure_DetailService,
+    private WarehouseSV :WarehoureService) {
   }
 
   ngOnInit() {
-    // this.LoadCategories();
+
     this.infortoken= this.LoginSV.decodeToken();
     this.loadData();
+    this.Loadproduct();
+    this.Loadwarehouse();
   }
+  
   onSubmitSearch() {
     this.loadData(this.keyword);
   };
+  Loadproduct(){
+    this.ProductSV.getAll().subscribe({
+      next:(res)=> {
+        if(res!=null){
+          this.Dsporduct=res
+        }
+      },
+    })
+  }
+  Loadwarehouse(){
+    this.WarehouseSV.getAll().subscribe({
+      next:(res)=> {
+        if(res!=null){
+          this.Dswarehouse=res
+        }
+      },
+    })
+  }
   // load dữ liệu table
   loadData(keyword: string = '') {
     this.loading = true;
@@ -76,14 +102,14 @@ infortoken:any;
   }
 
   addInvoiceItem() {
-    this.invoiceItems.push({ Idproduct: 0, Price: 0 ,Quantity:0});
+    this.invoiceItems.push({ Idproduct: 0,Idwarehouse:0, Price: 0 ,Quantity:0});
   }
 
   removeInvoiceItem(index: number) {
     this.invoiceItems.splice(index, 1);
   }
   reset(){
-    this.invoiceItems=[{ Idproduct: 0, Price: 0 ,Quantity:0}]
+    this.invoiceItems=[{  Idproduct: 0,Idwarehouse:0, Price: 0 ,Quantity:0}]
   }
   getTotalPrice(): number {
  
@@ -103,11 +129,23 @@ infortoken:any;
     this.importbillSV.create(this.importdata).subscribe({
       next:(res)=>{
         if(res != null){
+          this.SaveWare_detail(this.importdata)
           this.loadData();
+          this.reset();
           alert("Thêm hóa đơn nhập thành công")
         }
       }
     })
+    
     console.log('Invoice Items:', this.invoiceItems);
+  }
+  SaveWare_detail(data:any){
+    this.warehouse_detailSV.create(data).subscribe({
+      next:(res)=>{
+        if(res != null){
+          this.loadData();
+        }
+      }
+    })
   }
 }

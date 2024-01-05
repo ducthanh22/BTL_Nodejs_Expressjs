@@ -9,6 +9,7 @@ import { LoginComponent } from './login/login.component';
 import { AdminModule } from 'src/app/modules/admin/admin.module';
 import { AdminRoutingModule } from 'src/app/modules/admin/admin-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RegisterComponent } from './register/register.component';
 
 
 
@@ -19,6 +20,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     AdminAdmintemplateComponent,
     ClientClienttemplateComponent,
     LoginComponent,
+    RegisterComponent,
   
   ],
   imports: [

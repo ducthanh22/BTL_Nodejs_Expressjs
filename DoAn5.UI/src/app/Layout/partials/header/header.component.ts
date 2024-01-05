@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { CategoriesService } from 'src/app/service';
+import { ShareService } from 'src/app/service/core/share.service';
 import { LoginService } from 'src/app/service/login.service';
 
 @Component({
@@ -9,10 +10,14 @@ import { LoginService } from 'src/app/service/login.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
+  @Output() keyword = new EventEmitter<string>(); 
+  newKeyword: string = '';
+
   Dscategories:any[]=[];
   informationToken:any
  
-  constructor(private categoriesService: CategoriesService,private router: Router,private LoginService: LoginService ) { }
+  constructor(private categoriesService: CategoriesService,private router: Router,private LoginService: LoginService,
+    private shareService :ShareService ) { }
 
   ngOnInit() {
     this.LoadCategories()
@@ -47,6 +52,13 @@ export class HeaderComponent {
     localStorage.clear();
   this.router.navigate(['/client/Home'])
 
+  }
+  // addKeyWord(value:string){
+  //   this.keyword.emit(value)
+
+  // }
+  sendKeyword() {
+    this.shareService.sendKeyword(this.newKeyword);
   }
   
  

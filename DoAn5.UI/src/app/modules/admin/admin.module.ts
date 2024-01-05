@@ -17,6 +17,8 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { ExportbillComponent } from './exportbill/exportbill.component';
 import { ProducesComponent } from './produces/produces.component';
 import { ImportbillComponent } from './importbill/importbill.component';
+import { WarehouseComponent } from './warehouse/warehouse.component';
+import { BlogsAdminComponent } from './blogs/blogs.component';
 
 
 
@@ -29,6 +31,9 @@ import { ImportbillComponent } from './importbill/importbill.component';
     ExportbillComponent,
     ProducesComponent,
     ImportbillComponent,
+    WarehouseComponent,
+    BlogsAdminComponent
+
   ],
   imports: [
     CommonModule,

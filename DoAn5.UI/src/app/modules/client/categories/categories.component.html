@@ -20,4 +20,18 @@
       </div>
     </div>
   </div>
+  <br>
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <li class="page-item ">
+            <a class="page-link" (click)="Previousdata()">Previous</a>
+        </li>
+        <li class="page-item" *ngFor="let x of totalPageArray"><a class="page-link" (click)="Setpage(x)">{{x}}</a>
+        </li>
+
+        <li class="page-item" (click)="Nextdata()">
+            <a class="page-link">Next</a>
+        </li>
+    </ul>
+</nav>
 </section><!-- End Portfoio Section -->

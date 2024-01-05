@@ -181,6 +181,11 @@
             <input type="text" formControlName="Price_product" pInputText class="form-control" id="Price_product">
           </div>
           <div class="col-12 form-group">
+            <label for="name" class="col-form-label">Màu sắc: <span style="color: red;">*</span></label>
+            <input type="text" formControlName="ColorName" pInputText class="form-control" id="ColorName">
+          </div>
+
+          <div class="col-12 form-group">
             <label for="name" class="col-form-label">Mô tả: <span style="color: red;">*</span></label>
             <!-- <textarea formControlName="Describe" pInputText class="form-control" id="Describe"></textarea> -->
             <ckeditor [editor]="Editor"formControlName="Describe"class="form-control" id="Describe" ></ckeditor>

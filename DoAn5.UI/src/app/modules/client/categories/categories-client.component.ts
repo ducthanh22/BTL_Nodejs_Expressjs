@@ -54,6 +54,23 @@ export class CategoriesComponent {
     
     
   }
+  Nextdata() {
+    if (this.page < this.totalPages) {
+      this.page = this.page + 1;
+      this.getcategories(this.id);
+    }
+  }
+  Previousdata() {
+    if (this.page > 0) {
+      this.page = Math.max(1, this.page - 1);
+      this.getcategories(this.id);
+    }
+  }
+
+  Setpage(setpage: number) {
+    this.page = setpage
+    this.getcategories(this.id);
+  }
   addtocart(data: any) {
     this.ProductService.getbyid(data).subscribe({
       next: (res) => {

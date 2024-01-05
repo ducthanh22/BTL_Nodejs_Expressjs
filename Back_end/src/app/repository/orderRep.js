@@ -70,14 +70,6 @@ class OrderRepository extends BaseRepository {
     try {
       const data = await order.findAll({
         where: { Id_customer: id },
-        // include:
-        //   [{
-        //     model: customer,
-        //     required: false,
-        //   },
-
-        //   ]
-
       });
       return data;
     } catch (error) {

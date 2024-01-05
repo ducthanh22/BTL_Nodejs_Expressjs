@@ -32,4 +32,7 @@
   .blog_search + button i {
     vertical-align: middle;
   }
-  
+  .entry{
+    background-color: #fff;
+    border-radius: 3%;
+  }

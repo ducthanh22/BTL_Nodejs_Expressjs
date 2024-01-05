@@ -5,7 +5,7 @@ const Controller = require('../app/controller/PriceController');
 // Phải chắc chắn rằng bạn đang sử dụng một hàm callback cho phương thức get
 router.get('/getall', Controller.getAll);
 router.post('/create', Controller.create);
-router.put('/update', Controller.update);
+router.post('/update', Controller.update);
 router.get('/getbyid/:id', Controller.getbyid);
 router.get('/delete', Controller.delete);
 router.get('/search', Controller.searchAndPaginate);

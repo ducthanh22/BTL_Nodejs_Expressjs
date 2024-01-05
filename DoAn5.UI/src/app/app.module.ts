@@ -7,6 +7,8 @@ import { TemplateModule } from './Layout/template/template.module';
 import { TemplateRoutingModule } from './Layout/template/template-routing.module';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { TokenInterceptor } from './service/core/token.interceptor';
+import { ShareService } from './service/core/share.service';
+
 
 
 
@@ -15,6 +17,7 @@ import { TokenInterceptor } from './service/core/token.interceptor';
 @NgModule({
   declarations: [
     AppComponent,
+
 
 
   ],
@@ -29,7 +32,8 @@ import { TokenInterceptor } from './service/core/token.interceptor';
     provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptor,
     multi: true,
-  }],
+  },
+  ShareService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

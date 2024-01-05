@@ -7,6 +7,9 @@ import { OrderComponent } from './order/order.component';
 import { ExportbillComponent } from './exportbill/exportbill.component';
 import { ProducesComponent } from './produces/produces.component';
 import { ImportbillComponent } from './importbill/importbill.component';
+import { WarehouseComponent } from './warehouse/warehouse.component';
+import { BlogsAdminComponent } from './blogs/blogs.component';
+
 
 
 
@@ -21,6 +24,10 @@ const routes: Routes = [
     {path:'importbill',component:ImportbillComponent},
 
     {path:'produces',component:ProducesComponent},
+    {path:'warehouse',component:WarehouseComponent},
+    {path:'blog_admin',component:BlogsAdminComponent},
+
+
 
 
 

@@ -5,9 +5,10 @@ const authenticateToken = (req, res, next) => {
     if (
         req.path === '/account/login' ||
         req.path === '/categories/getall' ||
-        req.path === '/products/getcategories' ||
-        req.path === '/products/getnewproduct' ||
-        req.path.startsWith('/products/getbyid/')
+        // req.path === '/products/getcategories' ||
+        // req.path === '/products/getnewproduct' ||
+        req.path.startsWith('/products')
+
       ) {
         return next();
       }

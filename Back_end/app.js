@@ -28,6 +28,14 @@ var acount= require('./src/routes/acount')
 var Produces= require('./src/routes/Produces')
 var size= require('./src/routes/size')
 var price= require('./src/routes/price')
+var warehouse= require('./src/routes/warehouse')
+var detail_warehouse= require('./src/routes/detail_warehouse')
+var news= require('./src/routes/news')
+var comment= require('./src/routes/comment')
+
+
+
+
 
 
 
@@ -56,6 +64,7 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(fileUpload());
 // app.use(authenticateToken);  
+
 // app.use(acl.authorize);
 
 
@@ -75,6 +84,16 @@ app.use('/importbill',importbill);
 app.use('/produces',Produces);
 app.use('/size',size);
 app.use('/price',price);
+app.use('/warehouse',warehouse);
+app.use('/detail_warehouse',detail_warehouse);
+app.use('/news',news);
+app.use('/comment',comment);
+
+
+
+
+
+
 app.use('/account',acount);
 
 

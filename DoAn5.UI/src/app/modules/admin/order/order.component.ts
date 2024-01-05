@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
 import { Detail_exportbillsDto, exportbillDto } from 'src/app/model';
 import { OrderService } from 'src/app/service';
 import { Order_detailService } from 'src/app/service/Order_detail.service';
@@ -70,22 +71,28 @@ export class OrderComponent {
   }
 
 
-  getbydetail(x: any) {
-    this.order_detail.getbyid(x).subscribe({
-      next: (res) => {
-        this.detail = res;
-        // console.log(this.detail)
-        this.getbyid(this.detail[0].Id_Order);
-      }
-    })
+   async getbydetail(x: any) {
+  
+    
+    try {
+      this.detail= await firstValueFrom(this.order_detail.getbyid(x))
+      this.getbyid(this.detail[0].Id_Order);
+    } catch (error) {
+      console.error('Lỗi khi lấy thông tin đơn hàng:', error);
+    }
   }
 
-  getbyid(x: any) {
-    this.OrderService.getbyid(x).subscribe({
-      next: (res) => {
-        this.order = res;
-      }
-    })
+  async getbyid(x: any) {
+    // try {
+    //   this.order = await this.OrderService.getbyid(x).toPromise();
+    // } catch (error) {
+    //   console.error('Lỗi khi lấy thông tin đơn hàng:', error);
+    // }
+    try {
+      this.order = await firstValueFrom(this.OrderService.getbyid(x));
+    } catch (error) {
+      console.error('Lỗi khi lấy thông tin đơn hàng:', error);
+    }
   }
   // getTotalPrice(): number {
   //   let Carts = this.detail;
@@ -96,8 +103,8 @@ export class OrderComponent {
   //   return total;
   // }
 
-  CreateExportBill(x: any) {
-    this.getbydetail(x);
+  async CreateExportBill(x: any) {
+     await this.getbydetail(x);
     if (this.detail != null) {
       const Detail_exportbills: Detail_exportbillsDto[] = this.detail.map((item: any) => ({
         Id_product: item.Id_product,
@@ -111,6 +118,7 @@ export class OrderComponent {
         Detail_exportbills: Detail_exportbills,
         id: null
       };
+      console.log(data)
       this.ExportbillSv.create(data).subscribe({
         next: (res) => {
           if (res != null) {
@@ -126,19 +134,24 @@ export class OrderComponent {
     }
   }
 
-  Update(x:number, s:number ){
+  async update(x: number) {
+    await this.getbyid(x);
+    if (this.order) { // Kiểm tra xem this.order có giá trị không
+        let data = this.order;
+        data.status = 1;
+        console.log(data)
+        this.OrderService.update(data).subscribe({
+            next: (res) => {
+                if (res != null) {
+                  this.loadData();
+                    alert('Đổi trạng thái thành công');
+                }
+            }
+        });
+    }
     this.CreateExportBill(x);
-    this.getbyid(x);
-    let data = this.order;
-    data.status=s;
-    this.OrderService.update(data).subscribe({
-      next:(res)=>{
-        if(res != null){
-          this.loadData();
-          alert('Đổi trạng thái thành công');
-        }
-      }
-    });
-  
-  }
+    this.loadData();
+
+}
+
 }

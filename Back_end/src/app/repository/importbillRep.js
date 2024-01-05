@@ -22,7 +22,7 @@ class importbillRepository extends BaseRepository {
           ...detail,
           IdImportbillId: newOrder.id,
         }));
-        console.log(orderDetailsWithOrderId)
+        // console.log(orderDetailsWithOrderId)
         await detail_importbill.bulkCreate(orderDetailsWithOrderId, { transaction });
       }
       // Commit giao dịch nếu mọi thứ thành công

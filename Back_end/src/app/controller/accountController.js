@@ -20,5 +20,23 @@
         }
     }
 
+    async create(req, res) {
+        try {
+          // Lấy dữ liệu từ request body hoặc bất kỳ nguồn dữ liệu nào khác
+          const Data = req.body;
+          const newAccount = await Rep.create(Data);
+          res.status(201).json({
+            message: ' created successfully',
+            Account: newAccount,
+          });
+        } catch (error) {
+          // Xử lý lỗi và trả về thông báo lỗi
+          console.error('Error creating category:', error);
+          res.status(500).json({
+            error: error.message,
+          });
+        }
+      }
+
  }
  module.exports = new accController()

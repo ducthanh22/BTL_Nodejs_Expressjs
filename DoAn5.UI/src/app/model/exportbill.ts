@@ -10,5 +10,6 @@ export interface Detail_exportbillsDto {
     IdExportbill: number,
     Idproduct: number,
     Price: number,
+    Idwarehouse:number,
     Quantity: number,
 }

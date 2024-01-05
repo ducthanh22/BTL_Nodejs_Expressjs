@@ -1,0 +1,12 @@
+// Dựa vào đoạn mã trong categories.js
+const express = require('express');
+const router = express.Router();
+const colorController = require('../app/controller/newController');
+// Phải chắc chắn rằng bạn đang sử dụng một hàm callback cho phương thức get
+router.get('/getall', colorController.getAll);
+router.post('/create', colorController.create);
+router.post('/update', colorController.update);
+router.get('/getbyid/:id', colorController.getbyid);
+router.get('/delete', colorController.delete);
+router.get('/search', colorController.searchAndPaginate);
+module.exports = router;

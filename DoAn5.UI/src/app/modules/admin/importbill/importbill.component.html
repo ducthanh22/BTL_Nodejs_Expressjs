@@ -78,24 +78,38 @@
           </div>
           <br> -->
        <!-- Button to add more item fields -->
-       <button type="button" class="btn btn-success" style="margin-bottom: 30px;"  (click)="addInvoiceItem()"><i class="bi bi-plus-lg"></i>Thêm </button>
+       <!-- <button type="button" class="btn btn-success" style="margin-bottom: 30px;"  (click)="addInvoiceItem()"><i class="bi bi-plus-lg"></i>Thêm </button> -->
           <!-- Table for invoice items -->
           <table class="table">
             <thead>
               <tr>
-                <th scope="col">Mã sản phẩm</th>
-                <th scope="col">Giá</th>
-                <th scope="col">Số lượng</th>
+                <th scope="col" style="width: 30%;">Mã Sản phẩm</th>
+                <th scope="col" style="width: 20%;">Mã kho</th>
+
+                <th scope="col"style="width: 20%;">Giá</th>
+                <th scope="col"style="width: 20%;">Số lượng</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let item of invoiceItems; let i = index">
+                <td>
+                  <select [(ngModel)]="item.Idproduct" class="form-control" id="Idproduct">
+                    <option value="" disabled selected>-- Chọn nhà sản phẩm --</option>
+                    <option *ngFor="let x of Dsporduct" [value]="x.id">{{ x.id }}-{{x.Name}}</option>
+                  </select>
+                </td>
+                <td>
+                  <select [(ngModel)]="item.Idwarehouse" class="form-control" id="Idwarehouse">
+                    <option value="" disabled selected>-- Chọn kho --</option>
+                    <option *ngFor="let x of Dswarehouse" [value]="x.id">{{ x.id }}-{{x.Name}}</option>
+                  </select>
+                </td>
 
-                <td><input type="number" [(ngModel)]="item.Idproduct" class="form-control"></td>
                 <td><input type="number" [(ngModel)]="item.Price" class="form-control"></td>
                 <td><input type="number" [(ngModel)]="item.Quantity" class="form-control"></td>
                 <td>
-                  <i class="bi bi-plus-lg" (click)="addInvoiceItem()" style="color: rgb(43, 183, 92); margin-right: 10px;"></i>
+                  <i class="bi bi-plus-lg" (click)="addInvoiceItem()" style="color: rgb(43, 183, 92); margin-right: 10px; "></i>
                     <i class="bi bi-trash3" style="color: red;" (click)="removeInvoiceItem(i)"></i> 
              
                   </td>

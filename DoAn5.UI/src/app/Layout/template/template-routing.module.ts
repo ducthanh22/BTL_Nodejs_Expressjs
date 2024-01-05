@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ClientClienttemplateComponent } from './client-clienttemplate/client-clienttemplate.component';
 import { AdminAdmintemplateComponent } from './admin-admintemplate/admin-admintemplate.component';
 import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 
 
 
@@ -55,6 +56,8 @@ const routes: Routes = [
     
   },
   {path:'Login',component:LoginComponent,title:'Đăng nhập'},
+  {path:'Register',component:RegisterComponent,title:'Đăng kí'},
+
 
   
 ];

@@ -5,7 +5,7 @@ const productsController = require('../app/controller/productsController');
 // Phải chắc chắn rằng bạn đang sử dụng một hàm callback cho phương thức get
 router.get('/getall', productsController.getAll);
 router.post('/create', productsController.create);
-router.put('/update', productsController.update);
+router.post('/update', productsController.update);
 router.get('/getbyid/:id', productsController.getbyid);
 router.get('/getcategories', productsController.getcategories);
 

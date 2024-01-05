@@ -10,6 +10,8 @@ import { CartComponent } from './cart/cart.component';
 import { DetailproductsComponent } from './detailproducts/detailproducts.component';
 import { PayproductsComponent } from './payproducts/payproducts.component';
 import { CartDetailComponent } from './cart-detail/cart-detail.component';
+import { SearchComponent } from './search/search.component';
+import { DetailBlogComponent } from './detail-blog/detail-blog.component';
 
 
 const routes: Routes = [
@@ -53,7 +55,11 @@ const routes: Routes = [
      
      {path:'pay',component:PayproductsComponent,title:'Pay'},
 
-     {path:'cart_detail',component:CartDetailComponent,title:'cart_detail'}
+     {path:'cart_detail',component:CartDetailComponent,title:'cart_detail'},
+     {path:'search',component:SearchComponent,title:'search'},
+     {path:'detail_blog/:id',component:DetailBlogComponent,title:'detail_blog'}
+
+
 
     
   

@@ -11,8 +11,10 @@ import { ContactComponent } from './contact/contact.component';
 import { CartComponent } from './cart/cart.component';
 import { DetailproductsComponent } from './detailproducts/detailproducts.component';
 import { PayproductsComponent } from './payproducts/payproducts.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CartDetailComponent } from './cart-detail/cart-detail.component';
+import { SearchComponent } from './search/search.component';
+import { DetailBlogComponent } from './detail-blog/detail-blog.component';
 
 
 
@@ -30,19 +32,21 @@ import { CartDetailComponent } from './cart-detail/cart-detail.component';
     CategoriesComponent,
     HomeComponent,
     BlogComponent,
-
     ContactComponent,
     CartComponent,
     DetailproductsComponent,
     PayproductsComponent,
     CartDetailComponent,
+    SearchComponent,
+    DetailBlogComponent,
     
 
   ],
   imports: [
     CommonModule,
     ClientRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
 
   ]
 })

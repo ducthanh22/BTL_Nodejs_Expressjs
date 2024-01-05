@@ -1,96 +1,10 @@
-<app-header></app-header>
+<app-header (keyword)="receiveKeyword($event)"></app-header>
 <!-- ======= Hero Section ======= -->
  <section id="hero" class="d-flex justify-cntent-center align-items-center">
     <div id="heroCarousel" data-bs-interval="5000" class="container carousel carousel-fade" data-bs-ride="carousel">
-
-      <!-- Slide 1 -->
-      <!-- <div class="carousel-item active">
-        <div class="carousel-container">
-          <h2 class="animate__animated animate__fadeInDown">Định hướng nghề nghiệp dành cho bạn</h2>
-          <p class="animate__animated animate__fadeInUp">Tìm kiếm đam mê, phát triển bản thân</p> -->
-          <!-- <a href="#about" class="btn-get-started animate__animated animate__fadeInUp scrollto">Read More</a> -->
-        <!-- </div>
-      </div> -->
-
-      <!-- Slide 2 -->
-      <!-- <div class="carousel-item">
-        <div class="carousel-container">
-          <h2 class="animate__animated animate__fadeInDown">Việc làm mới dành cho bạn</h2>
-          <p class="animate__animated animate__fadeInUp">Việc làm mới, nâng tầm bản thân, thành công trong sự nghiệp.</p> -->
-          <!-- <a href="#about" class="btn-get-started animate__animated animate__fadeInUp scrollto">Read More</a> -->
-        <!-- </div>
-      </div> -->
-
-      <!-- Slide 3 -->
-      <!-- <div class="carousel-item">
-        <div class="carousel-container">
-          <h2 class="animate__animated animate__fadeInDown">Phúc lợi tốt dành cho bạn.</h2>
-          <p class="animate__animated animate__fadeInUp">Phúc lợi tốt, nâng cao giá trị bản thân.</p> -->
-          <!-- <a href="#about" class="btn-get-started animate__animated animate__fadeInUp scrollto">Read More</a> -->
-        <!-- </div>
-      </div> -->
-
-      <!-- <a class="carousel-control-prev" href="#heroCarousel" role="button" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon bx bx-chevron-left" aria-hidden="true"></span>
-      </a>
-
-      <a class="carousel-control-next" href="#heroCarousel" role="button" data-bs-slide="next">
-        <span class="carousel-control-next-icon bx bx-chevron-right" aria-hidden="true"></span>
-      </a> -->
-
     </div>
   </section><!-- End Hero -->
-
   <main id="main">
-
-    <!-- ======= Icon Boxes Section ======= -->
-    <!-- <section id="icon-boxes" class="icon-boxes">
-      <div class="container">
-
-        <div class="row">
-          <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="fade-up">
-            <div class="icon-box">
-              <div class="icon"><i class="bx bxl-dribbble"></i></div>
-              <h4 class="title"><a href="">Tuyển dụng </a></h4>
-              <p class="description">Người tìm việc có thể dễ dàng tìm kiếm tin tuyển dụng theo vị trí, công ty, ngành nghề,...</p>
-            </div>
-          </div>
-
-          <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="fade-up" data-aos-delay="100">
-            <div class="icon-box">
-              <div class="icon"><i class="bx bx-file"></i></div>
-              <h4 class="title"><a href=""> Đăng tin</a></h4>
-              <p class="description">Dễ dàng tạo tin tuyển dụng với các thông tin cơ bản như vị trí, mô tả công việc, yêu cầu ứng viên,...</p>
-            </div>
-          </div>
-
-          <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="fade-up" data-aos-delay="200">
-            <div class="icon-box">
-              <div class="icon"><i class="bx bx-tachometer"></i></div>
-              <h4 class="title"><a href="">Tìm kiếm nhanh chóng</a></h4>
-              <p class="description">cho phép người tìm việc tìm kiếm việc làm mọi lúc, mọi nơi</p>
-            </div>
-          </div>
-
-          <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="fade-up" data-aos-delay="300">
-            <div class="icon-box">
-              <div class="icon"><i class="bx bx-layer"></i></div>
-              <h4 class="title"><a href="">Hỗ trợ</a></h4>
-              <p class="description">Người tìm việc và nhà tuyển dụng có thể đặt câu hỏi và nhận câu trả lời từ đội ngũ hỗ trợ</p>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-    </section> -->
-    <!-- End Icon Boxes Section -->
-
-    
-     <!-- ======= Portfoio Section ======= -->
- 
-    
-
     <router-outlet></router-outlet>
     <!-- ======= Frequently Asked Questions Section ======= -->
     <section id="faq" class="faq section-bg">

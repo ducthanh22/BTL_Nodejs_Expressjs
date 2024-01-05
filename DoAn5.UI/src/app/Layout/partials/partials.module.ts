@@ -5,6 +5,7 @@ import { FooterComponent } from './footer/footer.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { RouterModule } from '@angular/router';
 import { HeaderadminComponent } from './headeradmin/headeradmin.component';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -17,7 +18,8 @@ import { HeaderadminComponent } from './headeradmin/headeradmin.component';
   ],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    FormsModule
   ],
   exports:[HeaderComponent,
     FooterComponent,

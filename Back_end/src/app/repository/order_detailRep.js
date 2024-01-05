@@ -29,6 +29,10 @@ class order_detailRepository extends BaseRepository {
             model: products,
             required: false,
           },
+          {
+            model: order,
+            required: false,
+          },
         ],
       });
       return data;

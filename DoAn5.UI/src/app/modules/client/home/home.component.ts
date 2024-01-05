@@ -53,6 +53,23 @@ export class HomeComponent {
     
     
   }
+  Nextdata() {
+    if (this.page < this.totalPages) {
+      this.page = this.page + 1;
+      this.GetNewProduct();
+    }
+  }
+  Previousdata() {
+    if (this.page > 0) {
+      this.page = Math.max(1, this.page - 1);
+      this.GetNewProduct();
+    }
+  }
+
+  Setpage(setpage: number) {
+    this.page = setpage
+    this.GetNewProduct();
+  }
   addtocart(data: any) {
     this.ProductSV.getbyid(data).subscribe({
       next: (res) => {
@@ -76,4 +93,6 @@ export class HomeComponent {
       }
     })
   }
+
+
 }

@@ -5,7 +5,7 @@ const OrderController = require('../app/controller/orderController');
 // Phải chắc chắn rằng bạn đang sử dụng một hàm callback cho phương thức get
 router.get('/getall', OrderController.getAll);
 router.post('/create', OrderController.create);
-router.put('/update', OrderController.update);
+router.post('/update', OrderController.update);
 router.get('/getbyid/:id', OrderController.getbyid);
 router.get('/getbyuser/:id', OrderController.getbyuser);
 router.get('/delete', OrderController.delete);
