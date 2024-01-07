@@ -32,6 +32,8 @@ var warehouse= require('./src/routes/warehouse')
 var detail_warehouse= require('./src/routes/detail_warehouse')
 var news= require('./src/routes/news')
 var comment= require('./src/routes/comment')
+var thongke= require('./src/routes/thongke')
+
 
 
 
@@ -88,6 +90,8 @@ app.use('/warehouse',warehouse);
 app.use('/detail_warehouse',detail_warehouse);
 app.use('/news',news);
 app.use('/comment',comment);
+app.use('/thongke',thongke);
+
 
 
 

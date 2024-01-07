@@ -1,4 +1,4 @@
-const { DataTypes } = require('sequelize');
+const { DataTypes ,Op} = require('sequelize');
 var db = require('../model/models/index');
 const account = require('../model/models/users')(db.sequelize, DataTypes);
 const BaseRepository = require('../repository/common/Base');
@@ -41,6 +41,63 @@ class accountRepository extends BaseRepository {
         }
     }
 
+    async searchCustomer(keyword, page, pageSize) {
+        try {
+          let whereCondition = {};
+          if (keyword && keyword.trim() !== "") {
+            whereCondition = {
+              name: {
+                [Op.like]: `%${keyword}%`,
+              },
+              status: 1,
+            };
+          } else {
+            whereCondition = {
+              status: 1,
+            };
+          }
+          // Chuyển đổi pageSize thành một giá trị số
+          const numericPageSize = parseInt(pageSize);
+          const { count, rows } = await account.findAndCountAll({
+            where: whereCondition,
+            limit: numericPageSize,
+            offset: (page - 1) * numericPageSize,
+          });
+      
+          return { count, rows };
+        } catch (error) {
+          throw error;
+        }
+      }
+
+      async searchStaff(keyword, page, pageSize) {
+        try {
+          let whereCondition = {};
+          if (keyword && keyword.trim() !== "") {
+            whereCondition = {
+              name: {
+                [Op.like]: `%${keyword}%`,
+              },
+              status: 2,
+            };
+          } else {
+            whereCondition = {
+              status: 2,
+            };
+          }
+          // Chuyển đổi pageSize thành một giá trị số
+          const numericPageSize = parseInt(pageSize);
+          const { count, rows } = await account.findAndCountAll({
+            where: whereCondition,
+            limit: numericPageSize,
+            offset: (page - 1) * numericPageSize,
+          });
+      
+          return { count, rows };
+        } catch (error) {
+          throw error;
+        }
+      }
 }
 
 module.exports = new accountRepository();

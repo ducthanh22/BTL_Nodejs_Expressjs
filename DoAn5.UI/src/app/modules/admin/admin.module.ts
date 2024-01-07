@@ -19,6 +19,8 @@ import { ProducesComponent } from './produces/produces.component';
 import { ImportbillComponent } from './importbill/importbill.component';
 import { WarehouseComponent } from './warehouse/warehouse.component';
 import { BlogsAdminComponent } from './blogs/blogs.component';
+import { CustomerComponent } from './customer/customer.component';
+import { StaffComponent } from './staff/staff.component';
 
 
 
@@ -32,7 +34,9 @@ import { BlogsAdminComponent } from './blogs/blogs.component';
     ProducesComponent,
     ImportbillComponent,
     WarehouseComponent,
-    BlogsAdminComponent
+    BlogsAdminComponent,
+    CustomerComponent,
+    StaffComponent
 
   ],
   imports: [

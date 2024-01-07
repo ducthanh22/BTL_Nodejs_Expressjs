@@ -9,6 +9,8 @@ import { ProducesComponent } from './produces/produces.component';
 import { ImportbillComponent } from './importbill/importbill.component';
 import { WarehouseComponent } from './warehouse/warehouse.component';
 import { BlogsAdminComponent } from './blogs/blogs.component';
+import { CustomerComponent } from './customer/customer.component';
+import { StaffComponent } from './staff/staff.component';
 
 
 
@@ -26,6 +28,10 @@ const routes: Routes = [
     {path:'produces',component:ProducesComponent},
     {path:'warehouse',component:WarehouseComponent},
     {path:'blog_admin',component:BlogsAdminComponent},
+    {path:'customer',component:CustomerComponent},
+    {path:'staff',component:StaffComponent},
+
+
 
 
 

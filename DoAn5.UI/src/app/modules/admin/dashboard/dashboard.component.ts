@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { StatisticService } from 'src/app/service/thongke.service';
 
 
 @Component({
@@ -7,17 +8,50 @@ import { Component } from '@angular/core';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent {
-    date: Date | undefined;
+   
     lineChartData: any;
     lineChartOptions: any;
     doughnutChartData: any;
     doughnutChartOptions: any;
-
+    date: { startDate: Date | string; endDate: Date | string } = {
+        startDate: '',
+        endDate: '',
+      };
+    datas:any;
+    dataMonth:any
+    
+   
+constructor( private StatisticSV:StatisticService){}
   ngOnInit() {
-    this.ChartLine();
+    // this.ChartLine();
     this.chartdoughnut();
-      
+    this.getStatistic();
+    this.getMonth();
   }
+getStatistic(){
+    this.StatisticSV.getStatistics(this.date).subscribe({
+        next:(res) =>{
+          this.datas=res  ;
+        },
+    });
+    this.getMonth();
+}
+
+getMonth(){
+    this.StatisticSV.getMonth(this.date).subscribe({
+        next:(res) =>{
+          this.dataMonth=res  ;
+          this.ChartLine(this.dataMonth)
+
+        },
+    })
+}
+reset(){
+    this.date.startDate='';
+    this.date.endDate='';
+    this.getStatistic()
+}
+
   chartdoughnut(){
     const documentStyle = getComputedStyle(document.documentElement);
       const textColor = documentStyle.getPropertyValue('--text-color');
@@ -46,77 +80,64 @@ export class DashboardComponent {
 
   }
 
-  ChartLine(){
+ChartLine(data: any) {
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color');
     const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
     const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+  
+    const months = data.map((item:any) => item.month);
+    const year = data.map((item:any) => item.year);
+
+    const revenues = data.map((item:any) => parseFloat(item.totalRevenue));
+  
     this.lineChartData = {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-        datasets: [
-            {
-                label: 'Dataset 1',
-                fill: false,
-                borderColor: documentStyle.getPropertyValue('--blue-500'),
-                yAxisID: 'y',
-                tension: 0.4,
-                data: [65, 59, 80, 81, 56, 55, 10]
-            },
-            {
-                label: 'Dataset 2',
-                fill: false,
-                borderColor: documentStyle.getPropertyValue('--green-500'),
-                yAxisID: 'y1',
-                tension: 0.4,
-                data: [28, 48, 40, 19, 86, 27, 90]
-            }
-        ]
-    };
-    
-    this.lineChartOptions = {
-        stacked: false,
-        maintainAspectRatio: false,
-        aspectRatio: 1.1,
-        plugins: {
-            legend: {
-                labels: {
-                    color: textColor
-                }
-            }
+      labels: months,
+      datasets: [
+        {
+          label: 'Doanh số',
+          fill: false,
+          borderColor: documentStyle.getPropertyValue('--blue-500'),
+          yAxisID: 'y',
+          tension: 0.4,
+          data: revenues
         },
-        scales: {
-            x: {
-                ticks: {
-                    color: textColorSecondary
-                },
-                grid: {
-                    color: surfaceBorder
-                }
-            },
-            y: {
-                type: 'linear',
-                display: true,
-                position: 'left',
-                ticks: {
-                    color: textColorSecondary
-                },
-                grid: {
-                    color: surfaceBorder
-                }
-            },
-            y1: {
-                type: 'linear',
-                display: true,
-                position: 'right',
-                ticks: {
-                    color: textColorSecondary
-                },
-                grid: {
-                    drawOnChartArea: false,
-                    color: surfaceBorder
-                }
-            }
+      ]
+    };
+  
+    this.lineChartOptions = {
+      stacked: false,
+      maintainAspectRatio: false,
+      aspectRatio: 1.1,
+      plugins: {
+        legend: {
+          labels: {
+            color: textColor
+          }
         }
+      },
+      scales: {
+        x: {
+          ticks: {
+            color: textColorSecondary
+          },
+          grid: {
+            color: surfaceBorder
+          }
+        },
+        y: {
+          type: 'linear',
+          display: true,
+          position: 'left',
+          ticks: {
+            color: textColorSecondary
+          },
+          grid: {
+            color: surfaceBorder
+          }
+        },
+      }
     };
   }
+  
 }

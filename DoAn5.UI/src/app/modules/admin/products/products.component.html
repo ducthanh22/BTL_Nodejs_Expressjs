@@ -45,8 +45,8 @@
           <td class="text-center">{{ x.Name }}</td>
           <td class="text-center">{{ x.Sizes[0]?.NameSize }}</td>
           <td class="text-center">{{ x.Prices[0]?.Price_product | currency:'VND' }}</td>
-          <td class="text-center">{{ x.Colors[0]?.ColorName }}</td>
-          <td class="text-center">{{ x.Describe }}</td>
+          <td class="text-center" >{{ x.Colors[0]?.ColorName }}</td>
+          <td class="text-center" [innerHTML]="x.Describe"></td>
           <td>
             <i class="bi bi-pencil-square" data-bs-toggle="modal" data-bs-target="#edit"
               style="color: rgb(6, 60, 253);  " (click)="edit(x)"></i>

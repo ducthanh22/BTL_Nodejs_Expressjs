@@ -14,6 +14,26 @@ export class LoginService extends BaseService<any> {
     super(http, `${environment.apiUrl}/account`);
   }
 
+  SearchCustomer(keyword: string, page: number, pageSize: number): Observable<any> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('pageSize', pageSize.toString())
+      .set('keyword', keyword || '')  // Đảm bảo rằng keyword không bị undefined
+    return this._http
+      .get<any>(`${this.actionUrl}/Search`,{params})
+      .pipe(first());
+  }
+  SearchStaff(keyword: string, page: number, pageSize: number): Observable<any> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('pageSize', pageSize.toString())
+      .set('keyword', keyword || '')  // Đảm bảo rằng keyword không bị undefined
+    return this._http
+      .get<any>(`${this.actionUrl}/staff`,{params})
+      .pipe(first());
+  }
+
+
 
   login(data:any):Observable<any>{
     return this._http

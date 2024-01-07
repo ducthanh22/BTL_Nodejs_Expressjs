@@ -8,7 +8,9 @@ router.post('/create', Controller.create);
 // router.post('/update', Controller.update);
 // router.get('/getbyid', Controller.getbyid);
 // router.get('/delete', Controller.delete);
-// router.get('/search', Controller.searchAndPaginate);
+router.get('/search', Controller.SearchCustomer);
+router.get('/staff', Controller.SearchCustomer);
+
 router.post('/login', Controller.login);
 
 module.exports = router;
